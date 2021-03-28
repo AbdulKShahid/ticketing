@@ -99,6 +99,10 @@ class _Signin extends State<Signin> {
         password: _passwordController.text,
       )).user;
 
+      if (_auth.currentUser != null) {
+        print(_auth.currentUser.uid);
+      }
+
       if (user != null) {
         setState(() {
           _success = true;
@@ -120,12 +124,12 @@ class _Signin extends State<Signin> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        showSnackBar('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        showSnackBar('Wrong password provided for that user.');
       }
     }
-
-
   }
 
   @override
@@ -134,6 +138,19 @@ class _Signin extends State<Signin> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  void showSnackBar(msg) {
+    final snackBar = SnackBar(
+      content: Text('Yay! A SnackBar!'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+  }
+
 }
 
 
