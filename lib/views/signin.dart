@@ -93,21 +93,39 @@ class _Signin extends State<Signin> {
   }
 
   void _signInWithEmailAndPassword() async {
-    final User user = (await _auth.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    )).user;
+    try {
+      final User user = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      )).user;
 
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-      });
-    } else {
-      setState(() {
-        _success = false;
-      });
+      if (user != null) {
+        setState(() {
+          _success = true;
+          _userEmail = user.email;
+        });
+      } else {
+        setState(() {
+          _success = false;
+        });
+      }
+
+      // navigate to list if success
+      if(_success) {
+        Navigator.pushNamed(
+          context,
+          '/details',
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     }
+
+
   }
 
   @override
