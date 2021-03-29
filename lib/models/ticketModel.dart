@@ -1,6 +1,7 @@
 class TicketModel {
-  final String title;
-  final String description;
+  final String ticketNumber;
+  final String ticketName;
+  final String ticketDescription;
 
-  TicketModel(this.title, this.description);
+  TicketModel(this.ticketNumber, this.ticketName, this.ticketDescription);
 }

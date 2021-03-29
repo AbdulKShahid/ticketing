@@ -34,8 +34,8 @@ class ListScreen extends StatelessWidget {
             }
           },
           cells: <DataCell>[
-            DataCell(Text(element.title)), //Extracting from Map element the value
-            DataCell(Text(element.description)),
+            DataCell(Text(element.ticketName)), //Extracting from Map element the value
+            DataCell(Text(element.ticketDescription)),
           ],
         )),
       )

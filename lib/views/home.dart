@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _Home extends State<HomeScreen> {
+
   var name = _auth.currentUser.email;
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,8 @@ class _Home extends State<HomeScreen> {
         tickets: List.generate(
           20,
               (i) => TicketModel(
-            'Todo $i',
+                '$i',
+            'Ticket $i',
             'A description of what needs to be done for Todo $i',
           ),
         ),
