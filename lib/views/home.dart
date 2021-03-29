@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketing/models/ticketModel.dart';
 import 'package:ticketing/views/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,16 @@ class _Home extends State<Home> {
         // the App.build method, and use it to set our appbar title.
         title: Text('List'),
       ),
-      body: List(), // This trailing comma makes auto-formatting nicer for build methods.
+      body:ListScreen(
+        tickets: List.generate(
+          20,
+              (i) => TicketModel(
+            'Todo $i',
+            'A description of what needs to be done for Todo $i',
+          ),
+        ),
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
@@ -40,6 +50,15 @@ class _Home extends State<Home> {
               ),
             ),
             ListTile(
+              title: Text('Create'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
               title: Text('Sign out'),
               onTap: () {
                 // Update the state of the app
@@ -49,15 +68,7 @@ class _Home extends State<Home> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
+
           ],
         ),
       ),

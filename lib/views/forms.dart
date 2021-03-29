@@ -2,52 +2,27 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketing/models/ticketModel.dart';
 
 
-class details extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState(){
-    return _details();
-  }
-}
+class DetailScreen extends StatelessWidget {
+  // Declare a field that holds the Todo.
+  final TicketModel todo;
 
-
-class _details extends State<details> {
-
-  var db;
-
-  @override
-  Future<void> initState() async {
-
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
-
-  void onPressedButton() {
-    debugPrint('hgjhgjhg');
-  }
-
-  Widget form(){
-    return TextButton(
-      child: Text('hello'),
-      onPressed: () => onPressedButton(),
-    );
-  }
+  // In the constructor, require a Todo.
+  DetailScreen({Key key, @required this.todo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: form()
+    // Use the Todo to create the UI.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(todo.title),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(todo.description),
+      ),
     );
   }
 }

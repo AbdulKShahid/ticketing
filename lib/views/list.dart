@@ -1,48 +1,45 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketing/models/ticketModel.dart';
+import 'package:ticketing/views/forms.dart';
 
-class List extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _List();
-  }
-}
+class ListScreen extends StatelessWidget {
+  final List<TicketModel> tickets;
 
-class _List extends State<List> {
+  ListScreen({Key key, @required this.tickets}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return list(context);
+    return DataTable(
+      columns: [
+        DataColumn(label: Text('title')),
+        DataColumn(label: Text('desc')),
+      ],
+      showCheckboxColumn: false,
+      rows:
+      tickets // Loops through dataColumnText, each iteration assigning the value to element
+          .map(
+        ((element) => DataRow(
+          onSelectChanged: (bool selected) {
+            if (selected) {
+              debugPrint('row-selected: ${element}');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(todo: element),
+                ),
+              );
+            }
+          },
+          cells: <DataCell>[
+            DataCell(Text(element.title)), //Extracting from Map element the value
+            DataCell(Text(element.description)),
+          ],
+        )),
+      )
+          .toList(),
+    );;
   }
-}
-
-Widget list(context) {
-  return   Table(
-    defaultColumnWidth: FixedColumnWidth(120.0),
-    border: TableBorder.all(
-        color: Colors.black,
-        style: BorderStyle.solid,
-        width: 2),
-    children: [
-      TableRow( children: [
-        Column(children:[Text('Website', style: TextStyle(fontSize: 20.0))]),
-        Column(children:[Text('Tutorial', style: TextStyle(fontSize: 20.0))]),
-        Column(children:[Text('Review', style: TextStyle(fontSize: 20.0))]),
-      ]),
-      TableRow( children: [
-        Column(children:[Text('Javatpoint')]),
-        Column(children:[Text('Flutter')]),
-        Column(children:[Text('5*')]),
-      ]),
-      TableRow( children: [
-        Column(children:[Text('Javatpoint')]),
-        Column(children:[Text('MySQL')]),
-        Column(children:[Text('5*')]),
-      ]),
-      TableRow( children: [
-        Column(children:[Text('Javatpoint')]),
-        Column(children:[Text('ReactJS')]),
-        Column(children:[Text('5*')]),
-      ]),
-    ],
-  );
 }
