@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketing/models/ticketModel.dart';
-import 'package:ticketing/views/forms.dart';
+import 'package:ticketing/views/detail.dart';
 
 class ListScreen extends StatelessWidget {
   final List<TicketModel> tickets;

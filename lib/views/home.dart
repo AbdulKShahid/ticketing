@@ -8,14 +8,14 @@ import 'package:ticketing/services/authentication_service.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _Home();
   }
 }
 
-class _Home extends State<Home> {
+class _Home extends State<HomeScreen> {
   var name = _auth.currentUser.email;
   @override
   Widget build(BuildContext context) {

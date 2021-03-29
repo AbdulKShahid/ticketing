@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class Signin extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _Signin();
   }
 }
 
-class _Signin extends State<Signin> {
+class _Signin extends State<SignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
