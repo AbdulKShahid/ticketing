@@ -11,14 +11,7 @@ class List extends StatefulWidget {
 class _List extends State<List> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('List'),
-      ),
-      body: list(context), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    return list(context);
   }
 }
 
