@@ -17,15 +17,14 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
-    return Scaffold();
-   /* return Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: Text(docToEdit.ticketName),
+        title: Text(docToEdit.data()['ticketNumber']),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Text(ticket.ticketDescription),
+        child: Text(docToEdit.data()['ticketDescription']),
       ),
-    );*/
+    );
   }
 }
