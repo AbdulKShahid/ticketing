@@ -30,6 +30,7 @@ class _DetailScreen extends State<DetailScreen> {
   @override
   void initState() {
     _ticketNumberController = TextEditingController(text: widget.docToEdit.data()['ticketNumber']);
+    _ticketDescriptionController = TextEditingController(text: widget.docToEdit.data()['ticketDescription']);
     super.initState();
   }
 
@@ -95,6 +96,10 @@ class _DetailScreen extends State<DetailScreen> {
             alignment: Alignment.center,
             child: RaisedButton(
               onPressed: ()  {
+                widget.docToEdit.reference.update({
+                  'ticketNumber': _ticketNumberController.text,
+                  'ticketDescription': _ticketDescriptionController.text,
+                }).whenComplete(() => Navigator.pop(context));
               },
               child: const Text('Submit'),
             ),
