@@ -107,4 +107,21 @@ void signIn() {
 
   DatabaseReference _testRef = FirebaseDatabase.instance.reference().child('test');
   _testRef.set('Hello world 3443');
+
 }*/
+
+/*return StreamBuilder(
+stream: ref.snapshots(),
+builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+var values = snapshot.data.docs[0].data();
+
+print('ticketNumber ${values['ticketNumber']}');
+print('ticketDescription ${values['ticketDescription']}');
+print('codePostal ${values['codePostal']}');
+print('userId ${values['userId']}');
+print('ticketName ${values['ticketName']}');
+
+return ListView.builder(itemBuilder: itemBuilder);
+},
+);*/

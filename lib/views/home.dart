@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketing/models/ticketModel.dart';
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _Home extends State<HomeScreen> {
-
+  CollectionReference ref = Firestore.instance.collection('tickets');
   var name = _auth.currentUser.email;
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,11 @@ class _Home extends State<HomeScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text('List'),
       ),
-      body:ListScreen(
-        tickets: List.generate(
-          20,
-              (i) => TicketModel(
-                '$i',
-            'Ticket $i',
-            'A description of what needs to be done for Todo $i',
-          ),
-        ),
+      body:StreamBuilder(
+          stream: ref.snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        return ListScreen();
+      }
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
       drawer: Drawer(
@@ -77,3 +74,15 @@ class _Home extends State<HomeScreen> {
     );
   }
 }
+
+/*
+return ListScreen(
+tickets: List.generate(
+20,
+(i) => TicketModel(
+'$i',
+'Ticket $i',
+'A description of what needs to be done for Todo $i',
+),
+),
+);*/
