@@ -43,7 +43,7 @@ class ListScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(docToEdit: element),
+                    builder: (context) => DetailScreen(docToEdit: snapshot.data.docs[0]),
                   ),
                 );
               }
