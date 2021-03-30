@@ -20,13 +20,13 @@ class DetailScreen extends StatefulWidget {
 
   @override
   _DetailScreen createState() => _DetailScreen();
+
 }
 
 class _DetailScreen extends State<DetailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _ticketNumberController = TextEditingController();
   TextEditingController _ticketDescriptionController = TextEditingController();
-
   @override
   void initState() {
     _ticketNumberController = TextEditingController(text: widget.docToEdit.data()['ticketNumber']);
@@ -96,10 +96,7 @@ class _DetailScreen extends State<DetailScreen> {
             alignment: Alignment.center,
             child: RaisedButton(
               onPressed: ()  {
-                widget.docToEdit.reference.update({
-                  'ticketNumber': _ticketNumberController.text,
-                  'ticketDescription': _ticketDescriptionController.text,
-                }).whenComplete(() => Navigator.pop(context));
+                update();
               },
               child: const Text('Submit'),
             ),
@@ -107,6 +104,24 @@ class _DetailScreen extends State<DetailScreen> {
         ],
       ),
     );
+
+  }
+
+  void update() {
+    try{
+      widget.docToEdit.reference.update({
+        'ticketNumber': _ticketNumberController.text,
+        'ticketDescription': _ticketDescriptionController.text,
+      }).whenComplete(() => Navigator.pop(context));
+    }catch(e){
+      print('${e}');
+    }
+
+  }
+
+  @override
+  dispose() {
+    super.dispose();
 
   }
 }

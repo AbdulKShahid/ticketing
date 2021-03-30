@@ -8,7 +8,7 @@ import 'package:ticketing/views/detail.dart';
 
 class ListScreen extends StatelessWidget {
   final List<TicketModel> tickets = [];
-  var ref = Firestore.instance.collection('tickets');
+  var ref = FirebaseFirestore.instance.collection('tickets');
   ListScreen({Key key}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class ListScreen extends StatelessWidget {
     return StreamBuilder(
         stream: ref.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      return DataTable(
+      return snapshot.hasData ? DataTable(
         columns: [
           DataColumn(label: Text('title')),
           DataColumn(label: Text('desc')),
@@ -55,7 +55,7 @@ class ListScreen extends StatelessWidget {
           )),
         )
             .toList(),
-      );
+      ) : Container(child: Text('No data found!!'),);
     });
 
   }
