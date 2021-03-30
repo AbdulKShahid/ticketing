@@ -119,10 +119,21 @@ class _Home extends State<HomeScreen> {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     switch (result) {
+
       case ConnectivityResult.wifi:
       case ConnectivityResult.mobile:
+      setState(() => _connectionStatus = result.toString());
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      break;
       case ConnectivityResult.none:
         setState(() => _connectionStatus = result.toString());
+        final snackBar = SnackBar(
+          duration: Duration(days: 1),
+          content: Text('No connection'),
+        );
+        // Find the ScaffoldMessenger in the widget tree
+        // and use it to show a SnackBar.
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         break;
       default:
         setState(() => _connectionStatus = 'Failed to get connectivity.');
