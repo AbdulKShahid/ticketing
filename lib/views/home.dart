@@ -74,7 +74,7 @@ class _Home extends State<HomeScreen> {
       body:StreamBuilder(
           stream: ref.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        return ListScreen();
+        return SizedBox.expand(child: ListScreen());
       }
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -104,15 +104,6 @@ class _Home extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-            ),
-            ListTile(
-              title: Text('Create'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
             ),
             ListTile(
               title: Text('Sign out'),
