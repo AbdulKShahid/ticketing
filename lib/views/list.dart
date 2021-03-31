@@ -39,11 +39,20 @@ class ListScreen extends StatelessWidget {
           ((element) => DataRow(
             onSelectChanged: (bool selected) {
               if (selected) {
+                var selectedIndex = -1;
+                snapshot.data.docs.asMap().forEach((index, value) => {
+                  print(element.data()['ticketNumber']),
+                  print(value.data()['ticketNumber']),
+                  if (value.data()['ticketNumber'] == element.data()['ticketNumber']) {
+                    selectedIndex = index
+                  }
+                });
+
                 debugPrint('row-selected: ${element}');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(docToEdit: snapshot.data.docs[0]),
+                    builder: (context) => DetailScreen(docToEdit: snapshot.data.docs[selectedIndex]),
                   ),
                 );
               }

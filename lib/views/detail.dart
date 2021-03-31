@@ -68,7 +68,6 @@ class _DetailScreen extends State<DetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: const Text('Test sign in with email and password'),
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,
           ),
