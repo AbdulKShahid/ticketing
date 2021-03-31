@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ticketing/helpers/generate-material-color.dart';
 import 'package:ticketing/services/authentication_service.dart';
 import 'package:ticketing/views/home.dart';
 import 'package:ticketing/views/list.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               // or simply save your changes to "hot reload" in a Flutter IDE).
               // Notice that the counter didn't reset back to zero; the application
               // is not restarted.
-              primarySwatch: Colors.blue,
+              primarySwatch: generateMaterialColor(Palette.primary),
             ),
             home: AuthenticationWrapper()
         ));
@@ -66,6 +67,10 @@ class AuthenticationWrapper extends StatelessWidget {
       return SignInScreen();
     }
   }
+}
+
+class Palette {
+  static const Color primary = Color(0xFF2F4D7D);
 }
 
 

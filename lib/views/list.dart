@@ -79,9 +79,9 @@ class ListScreen extends StatelessWidget {
                                               element.data()['ticketNumber'])),
                                           //Extracting from Map element the value
                                           DataCell(
-                                              Text(element.data()['ville'])),
+                                              Text(element.data()['ville'] != null ? element.data()['ville'] : '')),
                                           DataCell(
-                                              Text(element.data()['status'])),
+                                              Text(element.data()['status'] != null ? element.data()['status'] : '')),
                                         ],
                                       )),
                                 )

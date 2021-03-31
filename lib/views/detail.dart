@@ -28,10 +28,14 @@ class _DetailScreen extends State<DetailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _ticketNumberController = TextEditingController();
   TextEditingController _ticketDescriptionController = TextEditingController();
+  TextEditingController _villeController = TextEditingController();
+  TextEditingController _statusController = TextEditingController();
   @override
   void initState() {
     _ticketNumberController = TextEditingController(text:( widget.docToEdit != null ? widget.docToEdit.data()['ticketNumber'] : ''));
     _ticketDescriptionController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ticketDescription'] : '');
+    _villeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ville'] : '');
+    _statusController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['status'] : '');
     super.initState();
   }
 
@@ -91,6 +95,26 @@ class _DetailScreen extends State<DetailScreen> {
               return null;
             },
           ),
+          TextFormField(
+            controller: _villeController,
+            decoration: const InputDecoration(labelText: 'Ville'),
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _statusController,
+            decoration: const InputDecoration(labelText: 'Status'),
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             alignment: Alignment.center,
@@ -117,6 +141,8 @@ class _DetailScreen extends State<DetailScreen> {
       widget.docToEdit.reference.update({
         'ticketNumber': _ticketNumberController.text,
         'ticketDescription': _ticketDescriptionController.text,
+        'ville': _villeController.text,
+        'status': _statusController.text,
       }).whenComplete(() => Navigator.pop(context));
     }catch(e){
       print('${e}');
@@ -129,6 +155,8 @@ class _DetailScreen extends State<DetailScreen> {
       ref.add({
         'ticketNumber': _ticketNumberController.text,
         'ticketDescription': _ticketDescriptionController.text,
+        'ville': _villeController.text,
+        'status': _statusController.text,
       }).whenComplete(() => Navigator.pop(context));
     }catch(e){
       print('${e}');
