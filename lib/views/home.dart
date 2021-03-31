@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketing/views/detail.dart';
 import 'package:ticketing/views/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,19 @@ class _Home extends State<HomeScreen> {
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return ListScreen();
       }
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Add your onPressed code here!
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailScreen(),
+            ),
+          );
+        },
+        label: const Text('Create'),
+        icon: const Icon(Icons.add),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
       drawer: Drawer(
