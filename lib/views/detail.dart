@@ -27,15 +27,33 @@ class _DetailScreen extends State<DetailScreen> {
   var ref = FirebaseFirestore.instance.collection('tickets');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _ticketNumberController = TextEditingController();
-  TextEditingController _ticketDescriptionController = TextEditingController();
+  TextEditingController _ticketDateController = TextEditingController();
   TextEditingController _villeController = TextEditingController();
+  TextEditingController _codePostalController = TextEditingController();
   TextEditingController _statusController = TextEditingController();
+  TextEditingController _callTimeController = TextEditingController();
+  TextEditingController _arrivalTimeController = TextEditingController();
+  TextEditingController _departureTimeController = TextEditingController();
+  TextEditingController _buildingController = TextEditingController();
+  TextEditingController _floorNoController = TextEditingController();
+  TextEditingController _escalierController = TextEditingController();
+  TextEditingController _apartmentController = TextEditingController();
+
   @override
   void initState() {
     _ticketNumberController = TextEditingController(text:( widget.docToEdit != null ? widget.docToEdit.data()['ticketNumber'] : ''));
-    _ticketDescriptionController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ticketDescription'] : '');
+    _ticketDateController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ticketDate'] : '');
     _villeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ville'] : '');
+    _codePostalController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['codePostal'] : '');
     _statusController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['status'] : '');
+    _callTimeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['callTime'] : '');
+    _arrivalTimeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['arrivalTime'] : '');
+
+    _departureTimeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['departureTime'] : '');
+    _buildingController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['building'] : '');
+    _floorNoController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['floorNo'] : '');
+    _escalierController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['escalier'] : '');
+    _apartmentController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['apartment'] : '');
     super.initState();
   }
 
@@ -74,10 +92,20 @@ class _DetailScreen extends State<DetailScreen> {
       ),
       body: TabBarView(
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: infoFields(context),
-          ),
+          /*    Padding(
+                padding: EdgeInsets.all(16.0),
+                child: infoFields(context),
+              )*/
+      Container(
+    child: SingleChildScrollView(
+    scrollDirection: Axis.vertical,
+
+    child:Padding(
+    padding: EdgeInsets.all(16.0),
+    child: infoFields(context),
+    )))
+          ,
+
           Icon(Icons.directions_transit),
           Icon(Icons.directions_bike),
         ],
@@ -96,69 +124,144 @@ class _DetailScreen extends State<DetailScreen> {
       print(_auth.currentUser.uid);
     }
 
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(4),
-            alignment: Alignment.center,
+    return
+         Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(4),
+                alignment: Alignment.center,
+              ),
+              TextFormField(
+                controller: _ticketNumberController,
+                decoration: const InputDecoration(labelText: 'Ticket number'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _ticketDateController,
+                decoration: const InputDecoration(labelText: 'Ticket date'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _villeController,
+                decoration: const InputDecoration(labelText: 'Ville'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _codePostalController,
+                decoration: const InputDecoration(labelText: 'Code postal'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _statusController,
+                decoration: const InputDecoration(labelText: 'Status'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _callTimeController,
+                decoration: const InputDecoration(labelText: 'Call time'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _arrivalTimeController,
+                decoration: const InputDecoration(labelText: 'Arrival time'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _departureTimeController,
+                decoration: const InputDecoration(labelText: 'Departure time'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _buildingController,
+                decoration: const InputDecoration(labelText: 'Building'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _floorNoController,
+                decoration: const InputDecoration(labelText: 'floor number'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _escalierController,
+                decoration: const InputDecoration(labelText: 'Escalier'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _apartmentController,
+                decoration: const InputDecoration(labelText: 'apartment'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ],
           ),
-          TextFormField(
-            controller: _ticketNumberController,
-            decoration: const InputDecoration(labelText: 'Ticket number'),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _ticketDescriptionController,
-            decoration: const InputDecoration(labelText: 'Ticket description'),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _villeController,
-            decoration: const InputDecoration(labelText: 'Ville'),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _statusController,
-            decoration: const InputDecoration(labelText: 'Status'),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-        ],
-      ),
-    );
-
+        );
   }
 
   void update() {
     try{
-      widget.docToEdit.reference.update({
-        'ticketNumber': _ticketNumberController.text,
-        'ticketDescription': _ticketDescriptionController.text,
-        'ville': _villeController.text,
-        'status': _statusController.text,
-      }).whenComplete(() => Navigator.pop(context));
+      widget.docToEdit.reference.update(getBody()).whenComplete(() => Navigator.pop(context));
     }catch(e){
       print('${e}');
     }
@@ -167,16 +270,30 @@ class _DetailScreen extends State<DetailScreen> {
 
   void create() {
     try{
-      ref.add({
-        'ticketNumber': _ticketNumberController.text,
-        'ticketDescription': _ticketDescriptionController.text,
-        'ville': _villeController.text,
-        'status': _statusController.text,
-      }).whenComplete(() => Navigator.pop(context));
+      ref.add(getBody()).whenComplete(() => Navigator.pop(context));
     }catch(e){
       print('${e}');
     }
 
+  }
+
+  getBody() {
+    return {
+      'ticketNumber': _ticketNumberController.text,
+      'ticketDate': _ticketDateController.text,
+      'ville': _villeController.text,
+      'codePostal': _codePostalController.text,
+      'status': _statusController.text,
+      'callTime': _callTimeController.text,
+      'arrivalTime': _arrivalTimeController.text,
+      'departureTime': _departureTimeController.text,
+      'building': _buildingController.text,
+      'floorNo': _floorNoController.text,
+      'escalier': _escalierController.text,
+      'apartment': _apartmentController.text,
+      'creatorId': _auth.currentUser.uid,
+      'createdAt': DateTime.now().millisecondsSinceEpoch,
+    };
   }
 
   @override
