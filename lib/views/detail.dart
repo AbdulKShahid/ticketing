@@ -44,18 +44,48 @@ class _DetailScreen extends State<DetailScreen> {
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
 
-    return Scaffold(
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
       appBar: AppBar(
         title: Text('ticket'),
+        bottom: TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.info)),
+            Tab(icon: Icon(Icons.work)),
+            Tab(icon: Icon(Icons.photo)),
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              // update if existing ticket
+              if (widget.docToEdit != null) {
+                update();
+              } else {
+                create();
+              }
+            },
+            child: Text("Save"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: userFields(context),
+      body: TabBarView(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: infoFields(context),
+          ),
+          Icon(Icons.directions_transit),
+          Icon(Icons.directions_bike),
+        ],
       ),
-    );
+    ));
   }
 
-  Widget userFields(BuildContext context){
+  Widget infoFields(BuildContext context){
     // setting the cache
     var database = FirebaseDatabase.instance;
     database.setPersistenceEnabled(true);
@@ -72,7 +102,7 @@ class _DetailScreen extends State<DetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(4),
             alignment: Alignment.center,
           ),
           TextFormField(
@@ -114,21 +144,6 @@ class _DetailScreen extends State<DetailScreen> {
               }
               return null;
             },
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            alignment: Alignment.center,
-            child: RaisedButton(
-              onPressed: ()  {
-                // update if existing ticket
-                if (widget.docToEdit != null) {
-                  update();
-                } else {
-                  create();
-                }
-              },
-              child: const Text('Submit'),
-            ),
           ),
         ],
       ),
