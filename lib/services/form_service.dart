@@ -6,7 +6,7 @@ class FormService {
     var infoFieldsList = [
       FormField('string', 0.5, 'ticketNumber'),
       FormField('string', 0.5, 'ticketDate'),
-      FormField('string', 0.5, 'address'),
+      FormField('string', 1, 'address'),
       FormField('string', 0.5, 'ville'),
       FormField('string', 0.5, 'codePostal'),
       FormField('string', 0.5, 'status'),
@@ -38,19 +38,24 @@ class FormService {
     var fieldKey = field.key;
     return FractionallySizedBox(
       widthFactor: field.widthFactor,
-      child: TextFormField(
-        controller: TextEditingController(
-            text: (widget.docToEdit != null
-                ? widget.docToEdit.data()[fieldKey]
-                : '')),
-        decoration: getInputDecoration(field),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-      ),
+      child:
+      Padding(
+        padding: EdgeInsets.all(2.0),
+        child: TextFormField(
+          controller: TextEditingController(
+              text: (widget.docToEdit != null
+                  ? widget.docToEdit.data()[fieldKey]
+                  : '')),
+          decoration: getInputDecoration(field),
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
+        ),
+      )
+
     );
   }
 }
