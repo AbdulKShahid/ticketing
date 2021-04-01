@@ -28,6 +28,7 @@ class _DetailScreen extends State<DetailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _ticketNumberController = TextEditingController();
   TextEditingController _ticketDateController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
   TextEditingController _villeController = TextEditingController();
   TextEditingController _codePostalController = TextEditingController();
   TextEditingController _statusController = TextEditingController();
@@ -38,11 +39,16 @@ class _DetailScreen extends State<DetailScreen> {
   TextEditingController _floorNoController = TextEditingController();
   TextEditingController _escalierController = TextEditingController();
   TextEditingController _apartmentController = TextEditingController();
+  TextEditingController _locatorNameController = TextEditingController();
+  TextEditingController _telephoneController = TextEditingController();
+
+
 
   @override
   void initState() {
     _ticketNumberController = TextEditingController(text:( widget.docToEdit != null ? widget.docToEdit.data()['ticketNumber'] : ''));
     _ticketDateController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ticketDate'] : '');
+    _addressController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['address'] : '');
     _villeController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['ville'] : '');
     _codePostalController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['codePostal'] : '');
     _statusController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['status'] : '');
@@ -54,6 +60,8 @@ class _DetailScreen extends State<DetailScreen> {
     _floorNoController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['floorNo'] : '');
     _escalierController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['escalier'] : '');
     _apartmentController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['apartment'] : '');
+    _locatorNameController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['locatorName'] : '');
+    _telephoneController = TextEditingController(text: widget.docToEdit != null ?widget.docToEdit.data()['telephone'] : '');
     super.initState();
   }
 
@@ -127,132 +135,205 @@ class _DetailScreen extends State<DetailScreen> {
     return
          Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Wrap(
+            direction: Axis.horizontal,
             children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(4),
-                alignment: Alignment.center,
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                    controller: _ticketNumberController,
+                    decoration: const InputDecoration(labelText: 'Ticket number'),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+
               ),
-              TextFormField(
-                controller: _ticketNumberController,
-                decoration: const InputDecoration(labelText: 'Ticket number'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child:  TextFormField(
+                  controller: _ticketDateController,
+                  decoration: const InputDecoration(labelText: 'Ticket date'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+
               ),
-              TextFormField(
-                controller: _ticketDateController,
-                decoration: const InputDecoration(labelText: 'Ticket date'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+
+              FractionallySizedBox(
+                widthFactor: 1,
+                child:  TextFormField(
+                  controller: _addressController,
+                  decoration: const InputDecoration(labelText: 'Address'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+
               ),
-              TextFormField(
-                controller: _villeController,
-                decoration: const InputDecoration(labelText: 'Ville'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child:  TextFormField(
+                  controller: _villeController,
+                  decoration: const InputDecoration(labelText: 'Ville'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+
               ),
-              TextFormField(
-                controller: _codePostalController,
-                decoration: const InputDecoration(labelText: 'Code postal'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _codePostalController,
+                  decoration: const InputDecoration(labelText: 'Code postal'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _statusController,
+                  decoration: const InputDecoration(labelText: 'Status'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _callTimeController,
+                  decoration: const InputDecoration(labelText: 'Call time'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _statusController,
-                decoration: const InputDecoration(labelText: 'Status'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _arrivalTimeController,
+                  decoration: const InputDecoration(labelText: 'Arrival time'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),FractionallySizedBox(
+                widthFactor: 0.5,
+                child:  TextFormField(
+                  controller: _departureTimeController,
+                  decoration: const InputDecoration(labelText: 'Departure time'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _callTimeController,
-                decoration: const InputDecoration(labelText: 'Call time'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _buildingController,
+                  decoration: const InputDecoration(labelText: 'Building'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _arrivalTimeController,
-                decoration: const InputDecoration(labelText: 'Arrival time'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _floorNoController,
+                  decoration: const InputDecoration(labelText: 'floor number'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _departureTimeController,
-                decoration: const InputDecoration(labelText: 'Departure time'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _escalierController,
+                  decoration: const InputDecoration(labelText: 'Escalier'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _buildingController,
-                decoration: const InputDecoration(labelText: 'Building'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _apartmentController,
+                  decoration: const InputDecoration(labelText: 'apartment'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _floorNoController,
-                decoration: const InputDecoration(labelText: 'floor number'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _apartmentController,
+                  decoration: const InputDecoration(labelText: 'Locator name'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
-                controller: _escalierController,
-                decoration: const InputDecoration(labelText: 'Escalier'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _apartmentController,
-                decoration: const InputDecoration(labelText: 'apartment'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: TextFormField(
+                  controller: _telephoneController,
+                  decoration: const InputDecoration(labelText: 'Telephone number'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
             ],
           ),
@@ -281,6 +362,7 @@ class _DetailScreen extends State<DetailScreen> {
     return {
       'ticketNumber': _ticketNumberController.text,
       'ticketDate': _ticketDateController.text,
+      'address': _addressController.text,
       'ville': _villeController.text,
       'codePostal': _codePostalController.text,
       'status': _statusController.text,
@@ -291,6 +373,8 @@ class _DetailScreen extends State<DetailScreen> {
       'floorNo': _floorNoController.text,
       'escalier': _escalierController.text,
       'apartment': _apartmentController.text,
+      'locatorName': _locatorNameController.text,
+      'telephone': _telephoneController.text,
       'creatorId': _auth.currentUser.uid,
       'createdAt': DateTime.now().millisecondsSinceEpoch,
     };
