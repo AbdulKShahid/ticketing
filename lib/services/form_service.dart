@@ -41,33 +41,38 @@ class FormService {
   List<Widget> getFormFieldsWidgets(fieldsList, widget) {
     List<Widget> formWidgets = [];
     fieldsList.forEach((field) =>
-        {formWidgets.add(getFormWidget(field, widget))});
+    {formWidgets.add(getFormWidget(field, widget))});
     return formWidgets;
   }
 
   Widget getFormWidget(field, widget) {
-    var fieldKey = field.key;
     return FractionallySizedBox(
-      widthFactor: field.widthFactor,
-      child:
-      Padding(
-        padding: EdgeInsets.all(2.0),
-        child: TextFormField(
-          controller: TextEditingController(
-              text: (widget.docToEdit != null
-                  ? widget.docToEdit.data()[fieldKey]
-                  : '')),
-          decoration: getInputDecoration(field),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-            return null;
-          },
-        ),
-      )
+        widthFactor: field.widthFactor,
+        child:
+        Padding(
+          padding: EdgeInsets.all(2.0),
+          child: getWidgetByType(field, 'text', widget),
+        )
 
     );
+  }
+
+  Widget getWidgetByType(field, type, widget) {
+    if (type == 'string') {
+      return TextFormField(
+        controller: TextEditingController(
+            text: (widget.docToEdit != null
+                ? widget.docToEdit.data()[field.key]
+                : '')),
+        decoration: getInputDecoration(field),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      );
+    }
   }
 }
 
@@ -101,7 +106,6 @@ getInputDecoration(field) {
   const equipmentVerification = 'Verification of equipments';
 
   switch (field.key) {
-
     case 'ticketNumber':
       {
         return const InputDecoration(labelText: ticketNumber);
@@ -150,32 +154,32 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: apartment);
       }
-      case 'locatorName':
+    case 'locatorName':
       {
         return const InputDecoration(labelText: locatorName);
       }
-      case 'telephone':
+    case 'telephone':
       {
         return const InputDecoration(labelText: telephone);
       }
 
-      case 'isOneTechnician':
+    case 'isOneTechnician':
       {
         return const InputDecoration(labelText: isOneTechnician);
       }
-      case 'isTwoTechnician':
+    case 'isTwoTechnician':
       {
         return const InputDecoration(labelText: isTwoTechnician);
       }
-      case 'putInSecurity':
+    case 'putInSecurity':
       {
         return const InputDecoration(labelText: putInSecurity);
       }
-      case 'putInSecurity':
+    case 'putInSecurity':
       {
         return const InputDecoration(labelText: putInSecurity);
       }
-      case 'equipmentVerification':
+    case 'equipmentVerification':
       {
         return const InputDecoration(labelText: equipmentVerification);
       }
