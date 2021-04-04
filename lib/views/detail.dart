@@ -133,7 +133,6 @@ class _DetailScreen extends State<DetailScreen> {
     var key;
     var value;
     var field;
-    print(infoFieldsList);
     infoFieldsWidgets.forEach((widget) => {
       field = infoFieldsList[count],
       value = (field.type == 'dateTime') ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm').parse(widget.child.child.controller.text)): widget.child.child.controller.text,

@@ -93,7 +93,7 @@ class FormService {
           return null;
         },
         onTap: () async {
-          await selectTimePicker(context, dateFieldController);
+          await selectDatePicker(context, dateFieldController, date);
         },
       );
     }
@@ -104,29 +104,25 @@ class FormService {
     return format.format(dateTime);
   }
 
-  Future<Null> selectTimePicker(
-      BuildContext context, TextEditingController dateFieldController) async {
-    DateTime date = DateTime.now();
+  Future<Null> selectDatePicker(
+      BuildContext context, TextEditingController dateFieldController, DateTime date) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: date,
         firstDate: DateTime(2000),
         lastDate: DateTime(2030));
-    print('open now');
     if (pickedDate != null && pickedDate != date) {
       dateFieldController.text = pickedDate.toString();
-      _selectTime(context, pickedDate, dateFieldController);
+      _selectTime(context, pickedDate, dateFieldController, date);
     }
   }
 
   Future<Null> _selectTime(BuildContext context, DateTime pickedDate,
-      TextEditingController controller) async {
-    TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+      TextEditingController controller, DateTime date) async {
+    TimeOfDay selectedTime = TimeOfDay(hour: date.hour != null ? date.hour : 00, minute: date.minute != null ? date.minute : 00);
     final TimeOfDay pickedTime =
         await showTimePicker(context: context, initialTime: selectedTime);
     if (pickedTime != null) {
-      print((DateTime(pickedDate.year, pickedDate.month, pickedDate.day,
-          pickedTime.hour, pickedTime.minute)));
       var dateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day,
           pickedTime.hour, pickedTime.minute);
       controller.text = formatTimestamp(dateTime);
