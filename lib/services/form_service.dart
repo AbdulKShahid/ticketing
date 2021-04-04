@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FormService {
   getInfoFields(widget) {
@@ -10,7 +12,7 @@ class FormService {
       FormField('string', 0.5, 'ville'),
       FormField('string', 0.5, 'codePostal'),
       FormField('string', 0.5, 'status'),
-      FormField('string', 0.5, 'arrivalTime'),
+      FormField('dateTime', 0.5, 'arrivalTime'),
       FormField('string', 0.5, 'departureTime'),
       FormField('string', 0.5, 'building'),
       FormField('string', 0.5, 'floorNo'),
@@ -38,26 +40,23 @@ class FormService {
     return [];
   }
 
-  List<Widget> getFormFieldsWidgets(fieldsList, widget) {
+  List<Widget> getFormFieldsWidgets(fieldsList, widget, BuildContext context) {
     List<Widget> formWidgets = [];
-    fieldsList.forEach((field) =>
-    {formWidgets.add(getFormWidget(field, widget))});
+    fieldsList.forEach(
+        (field) => {formWidgets.add(getFormWidget(field, widget, context))});
     return formWidgets;
   }
 
-  Widget getFormWidget(field, widget) {
+  Widget getFormWidget(field, widget, BuildContext context) {
     return FractionallySizedBox(
         widthFactor: field.widthFactor,
-        child:
-        Padding(
+        child: Padding(
           padding: EdgeInsets.all(2.0),
-          child: getWidgetByType(field, 'text', widget),
-        )
-
-    );
+          child: getWidgetByType(field, field.type, widget, context),
+        ));
   }
 
-  Widget getWidgetByType(field, type, widget) {
+  Widget getWidgetByType(field, type, widget, BuildContext context) {
     if (type == 'string') {
       return TextFormField(
         controller: TextEditingController(
@@ -72,16 +71,75 @@ class FormService {
           return null;
         },
       );
+    } else if (type == 'dateTime') {
+      var timestamp;
+      if (widget.docToEdit != null &&
+          widget.docToEdit.data()[field.key].runtimeType == Timestamp) {
+        timestamp = widget.docToEdit.data()[field.key].seconds.ceil();
+      } else {
+        timestamp = ((DateTime.now().millisecondsSinceEpoch) / 1000).ceil();
+      }
+      DateTime date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      var dateFieldController = TextEditingController(
+          text: (widget.docToEdit != null ? formatTimestamp(date) : ''));
+      return TextFormField(
+        readOnly: true,
+        controller: dateFieldController,
+        decoration: getInputDecoration(field),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+        onTap: () async {
+          await selectTimePicker(context, dateFieldController);
+        },
+      );
+    }
+  }
+
+  String formatTimestamp(DateTime dateTime) {
+    var format = new DateFormat('dd/MM/yyyy HH:mm');
+    return format.format(dateTime);
+  }
+
+  Future<Null> selectTimePicker(
+      BuildContext context, TextEditingController dateFieldController) async {
+    DateTime date = DateTime.now();
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2030));
+    print('open now');
+    if (pickedDate != null && pickedDate != date) {
+      dateFieldController.text = pickedDate.toString();
+      _selectTime(context, pickedDate, dateFieldController);
+    }
+  }
+
+  Future<Null> _selectTime(BuildContext context, DateTime pickedDate,
+      TextEditingController controller) async {
+    TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+    final TimeOfDay pickedTime =
+        await showTimePicker(context: context, initialTime: selectedTime);
+    if (pickedTime != null) {
+      print((DateTime(pickedDate.year, pickedDate.month, pickedDate.day,
+          pickedTime.hour, pickedTime.minute)));
+      var dateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day,
+          pickedTime.hour, pickedTime.minute);
+      controller.text = formatTimestamp(dateTime);
     }
   }
 }
 
 class FormField {
-  final String fieldType;
+  final String type;
   final double widthFactor;
   final String key;
 
-  FormField(this.fieldType, this.widthFactor, this.key);
+  FormField(this.type, this.widthFactor, this.key);
 }
 
 getInputDecoration(field) {
@@ -183,7 +241,6 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: equipmentVerification);
       }
-
 
     default:
       {
