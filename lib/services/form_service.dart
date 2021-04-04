@@ -23,6 +23,17 @@ class FormService {
     return infoFieldsList;
   }
 
+  getWorkFields(widget) {
+    var workFieldsList = [
+      FormField('string', 0.5, 'isOneTechnician'),
+      FormField('string', 0.5, 'isTwoTechnician'),
+      FormField('string', 1, 'putInSecurity'),
+      FormField('string', 0.5, 'equipmentVerification'),
+    ];
+
+    return workFieldsList;
+  }
+
   buildForm(fields) {
     return [];
   }
@@ -68,8 +79,6 @@ class FormField {
   FormField(this.fieldType, this.widthFactor, this.key);
 }
 
-getTextForField(fieldKey) {}
-
 getInputDecoration(field) {
   const ticketNumber = 'Ticket number';
   const ticketDate = 'Ticket date';
@@ -85,6 +94,12 @@ getInputDecoration(field) {
   const apartment = 'Apartment';
   const locatorName = 'Locator name';
   const telephone = 'telephone';
+
+  const isOneTechnician = 'one technician';
+  const isTwoTechnician = 'two technician';
+  const putInSecurity = 'Put in security';
+  const equipmentVerification = 'Verification of equipments';
+
   switch (field.key) {
 
     case 'ticketNumber':
@@ -143,6 +158,29 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: telephone);
       }
+
+      case 'isOneTechnician':
+      {
+        return const InputDecoration(labelText: isOneTechnician);
+      }
+      case 'isTwoTechnician':
+      {
+        return const InputDecoration(labelText: isTwoTechnician);
+      }
+      case 'putInSecurity':
+      {
+        return const InputDecoration(labelText: putInSecurity);
+      }
+      case 'putInSecurity':
+      {
+        return const InputDecoration(labelText: putInSecurity);
+      }
+      case 'equipmentVerification':
+      {
+        return const InputDecoration(labelText: equipmentVerification);
+      }
+
+
     default:
       {
         return const InputDecoration(labelText: ticketNumber);

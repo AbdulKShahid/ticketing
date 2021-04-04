@@ -22,15 +22,20 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreen extends State<DetailScreen> {
   var ref = FirebaseFirestore.instance.collection('tickets');
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _infoFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _workFormKey = GlobalKey<FormState>();
 
   var infoFieldsList = [];
   var infoFieldsWidgets = [];
+  var workFieldsList = [];
+  var workFieldsWidgets = [];
 
   @override
   void initState() {
     infoFieldsList = formService.getInfoFields(widget);
     infoFieldsWidgets = formService.getFormFieldsWidgets(infoFieldsList, widget);
+    workFieldsList = formService.getWorkFields(widget);
+    workFieldsWidgets = formService.getFormFieldsWidgets(workFieldsList, widget);
     super.initState();
   }
 
@@ -74,30 +79,33 @@ class _DetailScreen extends State<DetailScreen> {
                       scrollDirection: Axis.vertical,
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: infoFields(context),
+                        child: getTheFieldsForm(context, 'infoFields'),
                       ))),
-              Icon(Icons.directions_transit),
+
+              Container(
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: getTheFieldsForm(context, 'workFields'),
+                      ))),
               Icon(Icons.directions_bike),
             ],
           ),
         ));
   }
 
-  Widget infoFields(BuildContext context) {
+  Widget getTheFieldsForm(BuildContext context, fieldsType) {
     // setting the cache
     var database = FirebaseDatabase.instance;
     database.setPersistenceEnabled(true);
     database.setPersistenceCacheSizeBytes(10000000);
 
-    if (_auth.currentUser != null) {
-      print(_auth.currentUser.uid);
-    }
-
     return Form(
-      key: _formKey,
+      key:  fieldsType == 'infoFields' ? _infoFormKey : _workFormKey,
       child: Wrap(
         direction: Axis.horizontal,
-        children: infoFieldsWidgets,
+        children: fieldsType == 'infoFields' ? infoFieldsWidgets : workFieldsWidgets,
       ),
     );
   }
@@ -127,6 +135,13 @@ class _DetailScreen extends State<DetailScreen> {
     var value;
     infoFieldsWidgets.forEach((widget) => {
       key = infoFieldsList[count].key,
+      value = widget.child.child.controller.text,
+      obj[key] = value,
+      count++
+    });
+    count = 0;
+    workFieldsWidgets.forEach((widget) => {
+      key = workFieldsList[count].key,
       value = widget.child.child.controller.text,
       obj[key] = value,
       count++
