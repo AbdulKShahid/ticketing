@@ -7,13 +7,13 @@ class FormService {
   getInfoFields(widget) {
     var infoFieldsList = [
       FormField('string', 0.5, 'ticketNumber'),
-      FormField('string', 0.5, 'ticketDate'),
+      FormField('dateTime', 0.5, 'ticketDate'),
       FormField('string', 1, 'address'),
       FormField('string', 0.5, 'ville'),
       FormField('string', 0.5, 'codePostal'),
       FormField('string', 0.5, 'status'),
       FormField('dateTime', 0.5, 'arrivalTime'),
-      FormField('string', 0.5, 'departureTime'),
+      FormField('dateTime', 0.5, 'departureTime'),
       FormField('string', 0.5, 'building'),
       FormField('string', 0.5, 'floorNo'),
       FormField('string', 0.5, 'escalier'),
