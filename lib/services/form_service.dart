@@ -8,19 +8,28 @@ class FormService {
     var infoFieldsList = [
       FormField('string', 0.5, 'ticketNumber'),
       FormField('dateTime', 0.5, 'ticketDate'),
+      FormField('dateTime', 0.5, 'callTime'),
+      FormField('dateTime', 0.5, 'arrivalTime'),
+      FormField('dateTime', 0.5, 'departureTime'),
       FormField('string', 1, 'address'),
       FormField('string', 0.5, 'ville'),
       FormField('string', 0.5, 'codePostal'),
       FormField('string', 0.5, 'status'),
-      FormField('dateTime', 0.5, 'arrivalTime'),
-      FormField('dateTime', 0.5, 'departureTime'),
       FormField('string', 0.5, 'building'),
       FormField('string', 0.5, 'floorNo'),
       FormField('string', 0.5, 'escalier'),
       FormField('string', 0.5, 'apartment'),
       FormField('string', 0.5, 'locatorName'),
       FormField('string', 0.5, 'telephone'),
+      FormField('string', 0.5, 'commonArea'),
+      FormField('string', 0.5, 'logement'),
+      FormField('string', 0.5, 'blackOut'),
+      FormField('string', 0.5, 'waterLeak'),
+      FormField('string', 0.5, 'doorBlock'),
+
     ];
+
+    // add the names in the getInputDecoration on adding new fields
 
     return infoFieldsList;
   }
@@ -145,6 +154,7 @@ getInputDecoration(field) {
   const ville = 'Ville';
   const codePostal = 'Code postal';
   const status = 'Status';
+  const callTime = 'Call time';
   const arrivalTime = 'Arrival time';
   const departureTime = 'Departure time';
   const building = 'Building';
@@ -153,6 +163,11 @@ getInputDecoration(field) {
   const apartment = 'Apartment';
   const locatorName = 'Locator name';
   const telephone = 'telephone';
+  const commonArea = 'Partie commune';
+  const logement = 'Logement';
+  const blackOut = 'Panne électrique';
+  const waterLeak = "Fuite d'eau";
+  const doorBlock = 'Porte bloquée';
 
   const isOneTechnician = 'one technician';
   const isTwoTechnician = 'two technician';
@@ -184,7 +199,11 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: status);
       }
-    case 'arrivalTime':
+    case 'callTime':
+      {
+        return const InputDecoration(labelText: arrivalTime);
+      }
+      case 'arrivalTime':
       {
         return const InputDecoration(labelText: arrivalTime);
       }
@@ -215,6 +234,26 @@ getInputDecoration(field) {
     case 'telephone':
       {
         return const InputDecoration(labelText: telephone);
+      }
+      case 'commonArea':
+      {
+        return const InputDecoration(labelText: commonArea);
+      }
+      case 'logement':
+      {
+        return const InputDecoration(labelText: logement);
+      }
+      case 'blackOut':
+      {
+        return const InputDecoration(labelText: blackOut);
+      }
+      case 'waterLeak':
+      {
+        return const InputDecoration(labelText: waterLeak);
+      }
+      case 'doorBlock':
+      {
+        return const InputDecoration(labelText: doorBlock);
       }
 
     case 'isOneTechnician':
