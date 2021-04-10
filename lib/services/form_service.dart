@@ -124,6 +124,7 @@ class FormService {
               ? widget.docToEdit.data()[field.key]
               : ''));
       return TextFormField(
+        readOnly: true,
         controller: dropdownController,
         decoration: getInputDecoration(field),
         validator: (String value) {
