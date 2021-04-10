@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 class FormService {
   getInfoFields(widget) {
     var infoFieldsList = [
+      FormField('string', 0.5, 'technicianName'),
       FormField('string', 0.5, 'ticketNumber'),
       FormField('dateTime', 0.5, 'ticketDate'),
       FormField('dateTime', 0.5, 'callTime'),
@@ -14,7 +18,7 @@ class FormService {
       FormField('string', 1, 'address'),
       FormField('string', 0.5, 'ville'),
       FormField('string', 0.5, 'codePostal'),
-      FormField('string', 0.5, 'status'),
+      FormField('dropdown', 0.5, 'status'),
       FormField('string', 0.5, 'building'),
       FormField('string', 0.5, 'floorNo'),
       FormField('string', 0.5, 'escalier'),
@@ -26,7 +30,6 @@ class FormService {
       FormField('string', 0.5, 'blackOut'),
       FormField('string', 0.5, 'waterLeak'),
       FormField('string', 0.5, 'doorBlock'),
-
     ];
 
     // add the names in the getInputDecoration on adding new fields
@@ -105,7 +108,53 @@ class FormService {
           await selectDatePicker(context, dateFieldController, date);
         },
       );
+    } else if (type == 'dropdown') {
+
+      const PickerData2 = '''
+[
+    [
+        "Created",
+        "Assigned",
+        "Completed"
+    ]
+]
+    ''';
+      TextEditingController dropdownController = TextEditingController(
+          text: (widget.docToEdit != null
+              ? widget.docToEdit.data()[field.key]
+              : ''));
+      return TextFormField(
+        controller: dropdownController,
+        decoration: getInputDecoration(field),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+        onTap: () async {
+
+          showPickerArray(context, PickerData2, dropdownController);
+        },
+      );
     }
+  }
+
+  showPickerArray(BuildContext context, PickerData, dropdownController) {
+
+      new Picker(
+          adapter: PickerDataAdapter<String>(pickerdata: new JsonDecoder().convert(PickerData), isArray: true),
+          hideHeader: true,
+          title: new Text("Select status"),
+          onConfirm: (Picker picker, List value) {
+            print(value.toString());
+            print(picker.getSelectedValues());
+            if (picker.getSelectedValues()[0] != null) {
+              dropdownController.text = picker.getSelectedValues()[0].toString();
+            }
+          }
+      ).showDialog(context);
+
   }
 
   String formatTimestamp(DateTime dateTime) {
@@ -113,8 +162,8 @@ class FormService {
     return format.format(dateTime);
   }
 
-  Future<Null> selectDatePicker(
-      BuildContext context, TextEditingController dateFieldController, DateTime date) async {
+  Future<Null> selectDatePicker(BuildContext context,
+      TextEditingController dateFieldController, DateTime date) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: date,
@@ -128,7 +177,9 @@ class FormService {
 
   Future<Null> _selectTime(BuildContext context, DateTime pickedDate,
       TextEditingController controller, DateTime date) async {
-    TimeOfDay selectedTime = TimeOfDay(hour: date.hour != null ? date.hour : 00, minute: date.minute != null ? date.minute : 00);
+    TimeOfDay selectedTime = TimeOfDay(
+        hour: date.hour != null ? date.hour : 00,
+        minute: date.minute != null ? date.minute : 00);
     final TimeOfDay pickedTime =
         await showTimePicker(context: context, initialTime: selectedTime);
     if (pickedTime != null) {
@@ -149,6 +200,7 @@ class FormField {
 
 getInputDecoration(field) {
   const ticketNumber = 'Ticket number';
+  const technicianName = 'Technician name';
   const ticketDate = 'Ticket date';
   const address = 'Address';
   const ville = 'Ville';
@@ -175,6 +227,10 @@ getInputDecoration(field) {
   const equipmentVerification = 'Verification of equipments';
 
   switch (field.key) {
+    case 'technicianName':
+      {
+        return const InputDecoration(labelText: technicianName);
+      }
     case 'ticketNumber':
       {
         return const InputDecoration(labelText: ticketNumber);
@@ -203,7 +259,7 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: arrivalTime);
       }
-      case 'arrivalTime':
+    case 'arrivalTime':
       {
         return const InputDecoration(labelText: arrivalTime);
       }
@@ -235,23 +291,23 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: telephone);
       }
-      case 'commonArea':
+    case 'commonArea':
       {
         return const InputDecoration(labelText: commonArea);
       }
-      case 'logement':
+    case 'logement':
       {
         return const InputDecoration(labelText: logement);
       }
-      case 'blackOut':
+    case 'blackOut':
       {
         return const InputDecoration(labelText: blackOut);
       }
-      case 'waterLeak':
+    case 'waterLeak':
       {
         return const InputDecoration(labelText: waterLeak);
       }
-      case 'doorBlock':
+    case 'doorBlock':
       {
         return const InputDecoration(labelText: doorBlock);
       }
