@@ -25,11 +25,11 @@ class FormService {
       FormField('string', 0.5, 'apartment'),
       FormField('string', 0.5, 'locatorName'),
       FormField('string', 0.5, 'telephone'),
-      FormField('checkbox', 0.5, 'commonArea', 'Common area'),
+      FormField('checkbox', 0.5, 'commonArea', 'Partie commune'),
       FormField('checkbox', 0.5, 'logement', 'Logement'),
-      FormField('checkbox', 0.5, 'blackOut', 'Black out'),
-      FormField('checkbox', 0.5, 'waterLeak', 'Water leak'),
-      FormField('checkbox', 0.5, 'doorBlock', 'Door block'),
+      FormField('checkbox', 0.5, 'blackOut', 'Panne électrique'),
+      FormField('checkbox', 0.5, 'waterLeak', "Fuite d'eau"),
+      FormField('checkbox', 0.5, 'doorBlock', 'Porte Bloquée'),
     ];
 
     // add the names in the getInputDecoration on adding new fields
@@ -39,10 +39,30 @@ class FormService {
 
   getWorkFields(widget) {
     var workFieldsList = [
-      FormField('string', 0.5, 'isOneTechnician'),
-      FormField('string', 0.5, 'isTwoTechnician'),
-      FormField('string', 1, 'putInSecurity'),
-      FormField('string', 0.5, 'equipmentVerification'),
+      FormField('checkbox', 0.5, 'isOneTechnician', 'Un technician'),
+      FormField('checkbox', 0.5, 'isTwoTechnician', 'Deux technician'),
+      FormField('checkbox', 0.5, 'waterLeakSearch', 'Recherche de fuite'),
+      FormField('checkbox', 0.5, 'panneSearch', 'Recherche de panne'),
+      FormField('checkbox', 0.5, 'equipmentVerification', "Verification d'équipment"),
+      FormField('checkbox', 0.5, 'putInSecurity', 'Mise en securité'),
+      FormField('checkbox', 0.5, 'reparation', "Reparation"),
+      FormField('checkbox', 0.5, 'doorOpened', "Ouverture du porte"),
+      FormField('checkbox', 0.5, 'cave', "Cave"),
+      FormField('checkbox', 0.5, 'parkingEntry', "Entrée parking"),
+      FormField('checkbox', 0.5, 'portail', "Portail"),
+      FormField('checkbox', 0.5, 'porteGaineElectric', "Porte gaine électrique"),
+      FormField('checkbox', 0.5, 'porteLocalTechnic', "Porte local technique"),
+      FormField('checkbox', 0.5, 'reputInService', "Remise en service"),
+      FormField('checkbox', 0.5, 'cleaning', "Nettoyage"),
+      FormField('checkbox', 0.5, 'reparationPreviewed', "Réparation à prévoir"),
+      FormField('checkbox', 0.5, 'devisNeeded', "Besoin d'un devis"),
+      FormField('checkbox', 0.5, 'callManager', "Appel manager"),
+      FormField('string', 0.5, 'conductorName'),
+      FormField('string', 0.5, 'numberOfGardien'),
+      FormField('string', 0.5, 'nameOfGardien'),
+
+
+
     ];
 
     return workFieldsList;
@@ -208,21 +228,21 @@ class FormField {
 }
 
 getInputDecoration(field) {
-  const ticketNumber = 'Ticket number';
-  const technicianName = 'Technician name';
-  const ticketDate = 'Ticket date';
-  const address = 'Address';
+  const ticketNumber = "N. d'intervention";
+  const technicianName = "Nom du technician";
+  const ticketDate = "Date d'intervention";
+  const address = 'Adress';
   const ville = 'Ville';
   const codePostal = 'Code postal';
-  const status = 'Status';
-  const callTime = 'Call time';
-  const arrivalTime = 'Arrival time';
-  const departureTime = 'Departure time';
-  const building = 'Building';
-  const floorNo = 'Floor number';
+  const status = 'Statut';
+  const callTime = "Heure d'appel";
+  const arrivalTime = "Heure d'arrivé";
+  const departureTime = "Heure de depart";
+  const building = 'Batiment';
+  const floorNo = 'Etage';
   const escalier = 'Escalier';
   const apartment = 'Apartment';
-  const locatorName = 'Locator name';
+  const locatorName = 'Nom du locator';
   const telephone = 'telephone';
   const commonArea = 'Partie commune';
   const logement = 'Logement';
@@ -230,10 +250,13 @@ getInputDecoration(field) {
   const waterLeak = "Fuite d'eau";
   const doorBlock = 'Porte bloquée';
 
-  const isOneTechnician = 'one technician';
-  const isTwoTechnician = 'two technician';
-  const putInSecurity = 'Put in security';
-  const equipmentVerification = 'Verification of equipments';
+  const isOneTechnician = 'Un technician';
+  const isTwoTechnician = 'Deux technician';
+  const putInSecurity = 'Mise en securité';
+  const equipmentVerification = "Verification d'equipments";
+  const conductorName = "Nom conducteur de travaux";
+  const numberOfGardien = "N. Gardien";
+  const nameOfGardien = "Nom/prénom du gardien";
 
   switch (field.key) {
     case 'technicianName':
@@ -340,6 +363,18 @@ getInputDecoration(field) {
     case 'equipmentVerification':
       {
         return const InputDecoration(labelText: equipmentVerification);
+      }
+      case 'conductorName':
+      {
+        return const InputDecoration(labelText: conductorName);
+      }
+      case 'numberOfGardien':
+      {
+        return const InputDecoration(labelText: numberOfGardien);
+      }
+      case 'nameOfGardien':
+      {
+        return const InputDecoration(labelText: nameOfGardien);
       }
 
     default:
