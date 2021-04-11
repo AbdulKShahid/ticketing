@@ -25,11 +25,11 @@ class FormService {
       FormField('string', 0.5, 'apartment'),
       FormField('string', 0.5, 'locatorName'),
       FormField('string', 0.5, 'telephone'),
-      FormField('checkbox', 0.5, 'commonArea'),
-      FormField('checkbox', 0.5, 'logement'),
-      FormField('checkbox', 0.5, 'blackOut'),
-      FormField('checkbox', 0.5, 'waterLeak'),
-      FormField('checkbox', 0.5, 'doorBlock'),
+      FormField('checkbox', 0.5, 'commonArea', 'Common area'),
+      FormField('checkbox', 0.5, 'logement', 'Logement'),
+      FormField('checkbox', 0.5, 'blackOut', 'Black out'),
+      FormField('checkbox', 0.5, 'waterLeak', 'Water leak'),
+      FormField('checkbox', 0.5, 'doorBlock', 'Door block'),
     ];
 
     // add the names in the getInputDecoration on adding new fields
@@ -144,7 +144,7 @@ class FormService {
           ? widget.docToEdit.data()[field.key]
           : false);
 
-      return Tapbox(checked: value);
+      return Tapbox(checked: value, label: field.label);
     }
   }
 
@@ -202,8 +202,9 @@ class FormField {
   final String type;
   final double widthFactor;
   final String key;
+  String label;
 
-  FormField(this.type, this.widthFactor, this.key);
+  FormField(this.type, this.widthFactor, this.key, [this.label = 'label']);
 }
 
 getInputDecoration(field) {
@@ -356,7 +357,8 @@ getInputDecoration(field) {
 
 class Tapbox extends StatefulWidget {
   bool checked;
-  Tapbox({this.checked});
+  String label;
+  Tapbox({@required this.checked, @required this.label});
 
   @override
   _TapboxState createState() => _TapboxState();
@@ -385,7 +387,7 @@ class _TapboxState extends State<Tapbox> {
         padding: EdgeInsets.all(8),
         child: Row(
           children: <Widget>[
-            Expanded(child: Text('label')),
+            Expanded(child: Text(this.widget.label)),
             Checkbox(
               value: this.widget.checked,
               onChanged: (newValue) {
