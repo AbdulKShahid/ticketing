@@ -40,8 +40,10 @@ class _DetailScreen extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
-    infoFieldsWidgets = formService.getFormFieldsWidgets(infoFieldsList, widget, context);
-    workFieldsWidgets = formService.getFormFieldsWidgets(workFieldsList, widget, context);
+    infoFieldsWidgets =
+        formService.getFormFieldsWidgets(infoFieldsList, widget, context);
+    workFieldsWidgets =
+        formService.getFormFieldsWidgets(workFieldsList, widget, context);
     return DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -67,7 +69,7 @@ class _DetailScreen extends State<DetailScreen> {
                 },
                 child: Text("Save"),
                 shape:
-                    CircleBorder(side: BorderSide(color: Colors.transparent)),
+                CircleBorder(side: BorderSide(color: Colors.transparent)),
               ),
             ],
           ),
@@ -101,10 +103,12 @@ class _DetailScreen extends State<DetailScreen> {
     database.setPersistenceCacheSizeBytes(10000000);
 
     return Form(
-      key:  fieldsType == 'infoFields' ? _infoFormKey : _workFormKey,
+      key: fieldsType == 'infoFields' ? _infoFormKey : _workFormKey,
       child: Wrap(
         direction: Axis.horizontal,
-        children: fieldsType == 'infoFields' ? infoFieldsWidgets : workFieldsWidgets,
+        children: fieldsType == 'infoFields'
+            ? infoFieldsWidgets
+            : workFieldsWidgets,
       ),
     );
   }
@@ -134,10 +138,13 @@ class _DetailScreen extends State<DetailScreen> {
     var value;
     var field;
     infoFieldsWidgets.forEach((widget) => {
-      field = infoFieldsList[count],
-      value = (field.type == 'dateTime') ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm').parse(widget.child.child.controller.text)): widget.child.child.controller.text,
-      obj[field.key] = value,
-      count++
+
+    field = infoFieldsList[count],
+    value = (field.type == 'dateTime') ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm').parse(widget.child.child.controller.text)):
+    (field.type == 'checkbox') ? widget.child.child.checked:
+    widget.child.child.controller.text,
+    obj[field.key] = value,
+    count++
     });
     count = 0;
     workFieldsWidgets.forEach((widget) => {

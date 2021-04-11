@@ -25,11 +25,11 @@ class FormService {
       FormField('string', 0.5, 'apartment'),
       FormField('string', 0.5, 'locatorName'),
       FormField('string', 0.5, 'telephone'),
-      FormField('string', 0.5, 'commonArea'),
-      FormField('string', 0.5, 'logement'),
-      FormField('string', 0.5, 'blackOut'),
-      FormField('string', 0.5, 'waterLeak'),
-      FormField('string', 0.5, 'doorBlock'),
+      FormField('checkbox', 0.5, 'commonArea'),
+      FormField('checkbox', 0.5, 'logement'),
+      FormField('checkbox', 0.5, 'blackOut'),
+      FormField('checkbox', 0.5, 'waterLeak'),
+      FormField('checkbox', 0.5, 'doorBlock'),
     ];
 
     // add the names in the getInputDecoration on adding new fields
@@ -138,6 +138,13 @@ class FormService {
           showPickerArray(context, PickerData2, dropdownController);
         },
       );
+    } else if (type == 'checkbox') {
+      print(widget.docToEdit.data()[field.key].runtimeType);
+      bool value = ((widget.docToEdit != null &&  widget.docToEdit.data()[field.key].runtimeType == bool)
+          ? widget.docToEdit.data()[field.key]
+          : false);
+
+      return Tapbox(checked: value);
     }
   }
 
@@ -338,5 +345,56 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: ticketNumber);
       }
+  }
+}
+
+
+
+// TapboxA manages its own state.
+
+//------------------------- TapboxA ----------------------------------
+
+class Tapbox extends StatefulWidget {
+  bool checked;
+  Tapbox({this.checked});
+
+  @override
+  _TapboxState createState() => _TapboxState();
+}
+
+class _TapboxState extends State<Tapbox> {
+  _TapboxState();
+  @override
+  void initState() {
+   print(widget);
+    super.initState();
+  }
+
+  void _handleTap() {
+    setState(() {
+      this.widget.checked = !this.widget.checked;
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        print(this.widget.checked);
+      },
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Text('label')),
+            Checkbox(
+              value: this.widget.checked,
+              onChanged: (newValue) {
+                _handleTap();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
