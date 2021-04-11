@@ -69,7 +69,7 @@ class _DetailScreen extends State<DetailScreen> {
                 },
                 child: Text("Save"),
                 shape:
-                CircleBorder(side: BorderSide(color: Colors.transparent)),
+                    CircleBorder(side: BorderSide(color: Colors.transparent)),
               ),
             ],
           ),
@@ -82,7 +82,6 @@ class _DetailScreen extends State<DetailScreen> {
                         padding: EdgeInsets.all(16.0),
                         child: getTheFieldsForm(context, 'infoFields'),
                       ))),
-
               Container(
                   child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
@@ -106,9 +105,8 @@ class _DetailScreen extends State<DetailScreen> {
       key: fieldsType == 'infoFields' ? _infoFormKey : _workFormKey,
       child: Wrap(
         direction: Axis.horizontal,
-        children: fieldsType == 'infoFields'
-            ? infoFieldsWidgets
-            : workFieldsWidgets,
+        children:
+            fieldsType == 'infoFields' ? infoFieldsWidgets : workFieldsWidgets,
       ),
     );
   }
@@ -145,21 +143,22 @@ class _DetailScreen extends State<DetailScreen> {
     var field;
     bool valid = true;
     infoFieldsWidgets.forEach((widget) => {
-
-    field = infoFieldsList[count],
-    print(field),
-    if (field.key == 'technicianName' || field.key == 'ticketNumber' || field.key == 'ticketDate')
-    {
-      print(field.key),
-      value = widget.child.child.controller.text,
-        if(value == "")
-    {
-      valid = false
-    }
-  },
-    count++
-    });
-  return valid;
+          field = infoFieldsList[count],
+          print(field),
+          if (field.key == 'technicianName' ||
+              field.key == 'ticketNumber' ||
+              field.key == 'ticketDate')
+            {
+              print(field.key),
+              value = widget.child.child.controller.text,
+              print(value),
+              if (value == "") {
+                valid = false
+              }
+            },
+          count++
+        });
+    return valid;
   }
 
   Map<String, dynamic> getBody() {
@@ -168,35 +167,31 @@ class _DetailScreen extends State<DetailScreen> {
     var key;
     var value;
     var field;
-    infoFieldsWidgets.forEach((widget) =>
-    {
-
-      field = infoFieldsList[count],
-
-
-      value = (field.type == 'dateTime') ?
-      (widget.child.child.controller.text != "" ? new Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy HH:mm').parse(
-              widget.child.child.controller.text)) : "") :
-      (field.type == 'checkbox') ? widget.child.child.checked :
-      widget.child.child.controller.text,
-      obj[field.key] = value,
-      count++
-    });
+    infoFieldsWidgets.forEach((widget) => {
+          field = infoFieldsList[count],
+          value = (field.type == 'dateTime')
+              ? (widget.child.child.controller.text != ""
+                  ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm')
+                      .parse(widget.child.child.controller.text))
+                  : "")
+              : (field.type == 'checkbox')
+                  ? widget.child.child.checked
+                  : widget.child.child.controller.text,
+          obj[field.key] = value,
+          count++
+        });
     count = 0;
-    workFieldsWidgets.forEach((widget) =>
-    {
-      field = workFieldsList[count],
-
-
-      value = (field.type == 'dateTime') ? new Timestamp.fromDate(
-          DateFormat('dd/MM/yyyy HH:mm').parse(
-              widget.child.child.controller.text)) :
-      (field.type == 'checkbox') ? widget.child.child.checked :
-      widget.child.child.controller.text,
-      obj[field.key] = value,
-      count++
-    });
+    workFieldsWidgets.forEach((widget) => {
+          field = workFieldsList[count],
+          value = (field.type == 'dateTime')
+              ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm')
+                  .parse(widget.child.child.controller.text))
+              : (field.type == 'checkbox')
+                  ? widget.child.child.checked
+                  : widget.child.child.controller.text,
+          obj[field.key] = value,
+          count++
+        });
     return obj;
   }
 
