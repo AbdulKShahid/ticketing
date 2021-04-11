@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:ticketing/services/form_service.dart';
+import 'package:ticketing/views/images.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 var formService = new FormService();
@@ -89,7 +90,7 @@ class _DetailScreen extends State<DetailScreen> {
                         padding: EdgeInsets.all(16.0),
                         child: getTheFieldsForm(context, 'workFields'),
                       ))),
-              Icon(Icons.directions_bike),
+              ImagesScreen(),
             ],
           ),
         ));
