@@ -42,10 +42,14 @@ class FormService {
       FormField('checkbox', 0.5, 'isOneTechnician', 'Un technician'),
       FormField('checkbox', 0.5, 'isTwoTechnician', 'Deux technician'),
       FormField('checkbox', 0.5, 'waterLeakSearch', 'Recherche de fuite'),
+      FormField('string', 1, 'waterLeakSearchCmt'),
       FormField('checkbox', 0.5, 'panneSearch', 'Recherche de panne'),
+      FormField('string', 1, 'panneSearchCmt'),
+
       FormField('checkbox', 0.5, 'equipmentVerification', "Verification d'équipment"),
       FormField('checkbox', 0.5, 'putInSecurity', 'Mise en securité'),
       FormField('checkbox', 0.5, 'reparation', "Reparation"),
+      FormField('string', 1, 'reparationCmt'),
       FormField('checkbox', 0.5, 'doorOpened', "Ouverture du porte"),
       FormField('checkbox', 0.5, 'cave', "Cave"),
       FormField('checkbox', 0.5, 'parkingEntry', "Entrée parking"),
@@ -55,6 +59,7 @@ class FormService {
       FormField('checkbox', 0.5, 'reputInService', "Remise en service"),
       FormField('checkbox', 0.5, 'cleaning', "Nettoyage"),
       FormField('checkbox', 0.5, 'reparationPreviewed', "Réparation à prévoir"),
+      FormField('string', 1, 'reparationPreviewedCmt'),
       FormField('checkbox', 0.5, 'devisNeeded', "Besoin d'un devis"),
       FormField('checkbox', 0.5, 'callManager', "Appel manager"),
       FormField('string', 0.5, 'conductorName'),
@@ -96,6 +101,7 @@ class FormService {
                 ? widget.docToEdit.data()[field.key]
                 : '')),
         decoration: getInputDecoration(field),
+
         validator: (String value) {
           if (value.isEmpty) {
             return 'Please enter some text';
@@ -159,7 +165,6 @@ class FormService {
         },
       );
     } else if (type == 'checkbox') {
-      print(widget.docToEdit.data()[field.key].runtimeType);
       bool value = ((widget.docToEdit != null &&  widget.docToEdit.data()[field.key].runtimeType == bool)
           ? widget.docToEdit.data()[field.key]
           : false);
@@ -257,6 +262,10 @@ getInputDecoration(field) {
   const conductorName = "Nom conducteur de travaux";
   const numberOfGardien = "N. Gardien";
   const nameOfGardien = "Nom/prénom du gardien";
+  const reparationPreviewedCmt = "Réparation à prévoir commentaire";
+  const waterLeakSearchCmt = "Recherche de fuite commentaire";
+  const panneSearchCmt = "Recherche de panne commentaire";
+  const reparationCmt = "Reparation commentaire";
 
   switch (field.key) {
     case 'technicianName':
@@ -375,6 +384,22 @@ getInputDecoration(field) {
       case 'nameOfGardien':
       {
         return const InputDecoration(labelText: nameOfGardien);
+      }
+      case 'reparationPreviewedCmt':
+      {
+        return const InputDecoration(labelText: reparationPreviewedCmt);
+      }
+      case 'waterLeakSearchCmt':
+      {
+        return const InputDecoration(labelText: waterLeakSearchCmt);
+      }
+      case 'panneSearchCmt':
+      {
+        return const InputDecoration(labelText: panneSearchCmt);
+      }
+      case 'reparationCmt':
+      {
+        return const InputDecoration(labelText: reparationCmt);
       }
 
     default:

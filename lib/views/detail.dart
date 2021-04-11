@@ -114,6 +114,9 @@ class _DetailScreen extends State<DetailScreen> {
   }
 
   void update() {
+    if (!FormValid()) {
+      return;
+    }
     try {
       widget.docToEdit.reference
           .update(getBody())
@@ -124,11 +127,39 @@ class _DetailScreen extends State<DetailScreen> {
   }
 
   void create() {
+    if (!FormValid()) {
+      return;
+    }
     try {
       ref.add(getBody()).whenComplete(() => Navigator.pop(context));
     } catch (e) {
       print('${e}');
     }
+  }
+
+  bool FormValid() {
+    Map<String, dynamic> obj = {};
+    var count = 0;
+    var key;
+    var value;
+    var field;
+    bool valid = true;
+    infoFieldsWidgets.forEach((widget) => {
+
+    field = infoFieldsList[count],
+    print(field),
+    if (field.key == 'technicianName' || field.key == 'ticketNumber' || field.key == 'ticketDate')
+    {
+      print(field.key),
+      value = widget.child.child.controller.text,
+        if(value == "")
+    {
+      valid = false
+    }
+  },
+    count++
+    });
+  return valid;
   }
 
   Map<String, dynamic> getBody() {
@@ -137,20 +168,33 @@ class _DetailScreen extends State<DetailScreen> {
     var key;
     var value;
     var field;
-    infoFieldsWidgets.forEach((widget) => {
+    infoFieldsWidgets.forEach((widget) =>
+    {
 
-    field = infoFieldsList[count],
-    value = (field.type == 'dateTime') ? new Timestamp.fromDate(DateFormat('dd/MM/yyyy HH:mm').parse(widget.child.child.controller.text)):
-    (field.type == 'checkbox') ? widget.child.child.checked:
-    widget.child.child.controller.text,
-    obj[field.key] = value,
-    count++
+      field = infoFieldsList[count],
+
+
+      value = (field.type == 'dateTime') ?
+      (widget.child.child.controller.text != "" ? new Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy HH:mm').parse(
+              widget.child.child.controller.text)) : "") :
+      (field.type == 'checkbox') ? widget.child.child.checked :
+      widget.child.child.controller.text,
+      obj[field.key] = value,
+      count++
     });
     count = 0;
-    workFieldsWidgets.forEach((widget) => {
-      key = workFieldsList[count].key,
-      value = widget.child.child.controller.text,
-      obj[key] = value,
+    workFieldsWidgets.forEach((widget) =>
+    {
+      field = workFieldsList[count],
+
+
+      value = (field.type == 'dateTime') ? new Timestamp.fromDate(
+          DateFormat('dd/MM/yyyy HH:mm').parse(
+              widget.child.child.controller.text)) :
+      (field.type == 'checkbox') ? widget.child.child.checked :
+      widget.child.child.controller.text,
+      obj[field.key] = value,
       count++
     });
     return obj;
