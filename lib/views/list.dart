@@ -16,10 +16,13 @@ class ListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ref.get().then((value) {
       var m = value.docs.asMap();
-      m.keys.forEach((element) {
-        print('keys $element');
-      });
       m.values.forEach((element) {
+        print(element.reference.collection('images').get().then((value) =>
+        {
+          null
+        }));
+        print(element.metadata.toString());
+        //print(element.get('images'));
         print('values ${element.data()}');
       });
     });

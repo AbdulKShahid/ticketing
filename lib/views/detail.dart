@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreen extends State<DetailScreen> {
   var ref = FirebaseFirestore.instance.collection('tickets');
+  List<File> images = [];
   GlobalKey<FormState> _infoFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> _workFormKey = GlobalKey<FormState>();
 
@@ -35,6 +38,7 @@ class _DetailScreen extends State<DetailScreen> {
   void initState() {
     infoFieldsList = formService.getInfoFields(widget);
     workFieldsList = formService.getWorkFields(widget);
+    images = getImages();
     super.initState();
   }
 
@@ -45,17 +49,45 @@ class _DetailScreen extends State<DetailScreen> {
         formService.getFormFieldsWidgets(infoFieldsList, widget, context);
     workFieldsWidgets =
         formService.getFormFieldsWidgets(workFieldsList, widget, context);
+    // for existing and non existing ticket
+    var tabs = [
+      Tab(icon: Icon(Icons.info)),
+      Tab(icon: Icon(Icons.work)),
+      Tab(icon: Icon(Icons.photo))
+    ];
+
+    var tabsContent = [
+      Container(
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: getTheFieldsForm(context, 'infoFields'),
+              ))),
+      Container(
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: getTheFieldsForm(context, 'workFields'),
+              ))),
+      ImagesScreen(),
+    ];
+    var controllerLength = 3;
+    if (widget.docToEdit == null) {
+      tabs.removeAt(1);
+      tabs.removeAt(1);
+      tabsContent.removeAt(1);
+      tabsContent.removeAt(1);
+      controllerLength = 1;
+    }
     return DefaultTabController(
-        length: 3,
+        length: controllerLength,
         child: Scaffold(
           appBar: AppBar(
             title: Text('ticket'),
             bottom: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.info)),
-                Tab(icon: Icon(Icons.work)),
-                Tab(icon: Icon(Icons.photo)),
-              ],
+              tabs: tabs,
             ),
             actions: <Widget>[
               FlatButton(
@@ -75,23 +107,7 @@ class _DetailScreen extends State<DetailScreen> {
             ],
           ),
           body: TabBarView(
-            children: [
-              Container(
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: getTheFieldsForm(context, 'infoFields'),
-                      ))),
-              Container(
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: getTheFieldsForm(context, 'workFields'),
-                      ))),
-              ImagesScreen(),
-            ],
+            children: tabsContent,
           ),
         ));
   }
@@ -131,6 +147,8 @@ class _DetailScreen extends State<DetailScreen> {
     }
     try {
       ref.add(getBody()).whenComplete(() => Navigator.pop(context));
+      // add images
+      print(ImagesScreen());
     } catch (e) {
       print('${e}');
     }
@@ -153,9 +171,7 @@ class _DetailScreen extends State<DetailScreen> {
               print(field.key),
               value = widget.child.child.controller.text,
               print(value),
-              if (value == "") {
-                valid = false
-              }
+              if (value == "") {valid = false}
             },
           count++
         });
@@ -199,5 +215,22 @@ class _DetailScreen extends State<DetailScreen> {
   @override
   dispose() {
     super.dispose();
+  }
+
+  List<File> getImages() {
+    var m;
+    if (widget.docToEdit == null || widget.docToEdit.reference.collection('images').get() == null)
+      return [];
+    widget.docToEdit.reference.collection('images').get().then((value) => {
+          print(value.docs),
+          m = value.docs.asMap(),
+          print(m),
+          m.values.forEach((element) => {
+                print(element),
+                print(element),
+                print('values ${element.data()['images']}')
+                //print(element.get('images'));
+              })
+        });
   }
 }
