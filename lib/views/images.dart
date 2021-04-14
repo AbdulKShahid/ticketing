@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ticketing/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
@@ -48,10 +49,15 @@ class _Images extends State<ImagesScreen> {
     return Container(
         padding: EdgeInsets.all(16.0),
         child: GridView.builder(
-          itemCount: this.images.length,
+          itemCount: this.images1.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
           itemBuilder: (BuildContext context, int index){
-            return Image.network(this.images1[index]);
+            //return Image.network(this.images1[index]);
+            return CachedNetworkImage(
+              imageUrl: this.images1[index],
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            );
           },
         ));
   }
@@ -80,6 +86,7 @@ class _Images extends State<ImagesScreen> {
         if (status == 'TaskState.success') {
           downloadUrl = await taskSnapshot.ref.getDownloadURL();
           print(downloadUrl);
+          this.images1.add(downloadUrl);
         } else {
 
         }
