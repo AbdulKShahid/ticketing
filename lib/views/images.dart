@@ -18,21 +18,23 @@ class ImagesScreen extends StatefulWidget {
     return _Images();
   }
 
+  List<String> images = [];
+
+  ImagesScreen({this.images});
 }
 
 class _Images extends State<ImagesScreen> {
-
-  final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://ticketing-be5bf.appspot.com');
+  final FirebaseStorage _storage =
+      FirebaseStorage(storageBucket: 'gs://ticketing-be5bf.appspot.com');
   UploadTask storageEvent;
   PickedFile _image;
   File selectedImg;
-  List<String> images1 = ["https://firebasestorage.googleapis.com/v0/b/ticketing-be5bf.appspot.com/o/2021-04-13%2000%3A36%3A34.746232?alt=media&token=02d0e226-5b34-4218-bad6-a518931b1a34"];
-  List<File> images = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: imagesList(context), // This trailing comma makes auto-formatting nicer for build methods.
+      body: imagesList(context),
+      // This trailing comma makes auto-formatting nicer for build methods.
       //body: this.selectedImg != null ? imagesList(context) : Text('Images go here') , // This trailing comma makes auto-formatting nicer for build methods.
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -45,16 +47,17 @@ class _Images extends State<ImagesScreen> {
     );
   }
 
-  Widget imagesList(BuildContext context){
+  Widget imagesList(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(16.0),
         child: GridView.builder(
-          itemCount: this.images1.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-          itemBuilder: (BuildContext context, int index){
-            //return Image.network(this.images1[index]);
+          itemCount: widget.images != null ? widget.images.length : 0,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+          itemBuilder: (BuildContext context, int index) {
+            //return Image.network(widget.images[index]);
             return CachedNetworkImage(
-              imageUrl: this.images1[index],
+              imageUrl: widget.images[index],
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             );
@@ -64,20 +67,17 @@ class _Images extends State<ImagesScreen> {
 
   Future getImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.camera);
-    setState(() {
-      this._image = image;
-      this.selectedImg = File(_image.path);
-      this.images.add(this.selectedImg);
-      // upload to firebase
-      this.storeImage(this.selectedImg);
-    });
+    this._image = image;
+    this.selectedImg = File(_image.path);
+    // upload to firebase
+    this.storeImage(this.selectedImg);
   }
 
   storeImage(File selectedImg) {
     String filePath = '${DateTime.now()}';
     String status;
     setState(() {
-      var ref =  _storage.ref().child(filePath).putFile(selectedImg);
+      var ref = _storage.ref().child(filePath).putFile(selectedImg);
       print(ref.snapshot.metadata);
       var downloadUrl;
       ref.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
@@ -86,22 +86,21 @@ class _Images extends State<ImagesScreen> {
         if (status == 'TaskState.success') {
           downloadUrl = await taskSnapshot.ref.getDownloadURL();
           print(downloadUrl);
-          this.images1.add(downloadUrl);
-        } else {
-
-        }
+          setState(() {
+            widget.images.add(downloadUrl);
+            widget.images = [...widget.images];
+          });
+        } else {}
       });
     });
-
   }
+
   @override
   void dispose() {
     super.dispose();
   }
 
   getImages() {
-    return this.images;
-
-
+    return widget.images;
   }
 }

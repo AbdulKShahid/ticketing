@@ -25,7 +25,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreen extends State<DetailScreen> {
   var ref = FirebaseFirestore.instance.collection('tickets');
-  List<File> images = [];
+  List<String> images = [];
   GlobalKey<FormState> _infoFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> _workFormKey = GlobalKey<FormState>();
 
@@ -71,7 +71,7 @@ class _DetailScreen extends State<DetailScreen> {
                 padding: EdgeInsets.all(16.0),
                 child: getTheFieldsForm(context, 'workFields'),
               ))),
-      ImagesScreen(),
+      ImagesScreen(images: this.images != null ? this.images : []),
     ];
     var controllerLength = 3;
     if (widget.docToEdit == null) {
@@ -147,8 +147,6 @@ class _DetailScreen extends State<DetailScreen> {
     }
     try {
       ref.add(getBody()).whenComplete(() => Navigator.pop(context));
-      // add images
-      print(ImagesScreen());
     } catch (e) {
       print('${e}');
     }
@@ -217,7 +215,7 @@ class _DetailScreen extends State<DetailScreen> {
     super.dispose();
   }
 
-  List<File> getImages() {
+  List<String> getImages() {
     var m;
     if (widget.docToEdit == null || widget.docToEdit.reference.collection('images').get() == null)
       return [];
