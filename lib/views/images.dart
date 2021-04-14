@@ -1,14 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ticketing/services/authentication_service.dart';
-import 'package:provider/provider.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -17,10 +16,11 @@ class ImagesScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _Images();
   }
-
+  // Declare a field that holds the Todo.
+  DocumentSnapshot docToEdit;
   List<String> images = [];
 
-  ImagesScreen({this.images});
+  ImagesScreen({this.images, this.docToEdit});
 }
 
 class _Images extends State<ImagesScreen> {
@@ -89,10 +89,15 @@ class _Images extends State<ImagesScreen> {
           setState(() {
             widget.images.add(downloadUrl);
             widget.images = [...widget.images];
+            this.updateImgInTicket();
           });
         } else {}
       });
     });
+  }
+
+  updateImgInTicket() {
+    widget.docToEdit.reference.collection('images').add({'url': widget.images[widget.images.length-1]});
   }
 
   @override

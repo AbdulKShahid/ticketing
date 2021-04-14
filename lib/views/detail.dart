@@ -71,7 +71,7 @@ class _DetailScreen extends State<DetailScreen> {
                 padding: EdgeInsets.all(16.0),
                 child: getTheFieldsForm(context, 'workFields'),
               ))),
-      ImagesScreen(images: this.images != null ? this.images : []),
+      ImagesScreen(images: this.images != null ? this.images : [], docToEdit: widget.docToEdit != null ? widget.docToEdit : null),
     ];
     var controllerLength = 3;
     if (widget.docToEdit == null) {
