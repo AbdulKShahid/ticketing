@@ -78,14 +78,11 @@ class _Images extends State<ImagesScreen> {
     String status;
     setState(() {
       var ref = _storage.ref().child(filePath).putFile(selectedImg);
-      print(ref.snapshot.metadata);
       var downloadUrl;
       ref.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
-        print(taskSnapshot.state.toString());
         status = taskSnapshot.state.toString();
         if (status == 'TaskState.success') {
           downloadUrl = await taskSnapshot.ref.getDownloadURL();
-          print(downloadUrl);
           setState(() {
             widget.images.add(downloadUrl);
             widget.images = [...widget.images];

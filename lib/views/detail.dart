@@ -71,7 +71,9 @@ class _DetailScreen extends State<DetailScreen> {
                 padding: EdgeInsets.all(16.0),
                 child: getTheFieldsForm(context, 'workFields'),
               ))),
-      ImagesScreen(images: this.images != null ? this.images : [], docToEdit: widget.docToEdit != null ? widget.docToEdit : null),
+      ImagesScreen(
+          images: this.images != null ? this.images : [],
+          docToEdit: widget.docToEdit != null ? widget.docToEdit : null),
     ];
     var controllerLength = 3;
     if (widget.docToEdit == null) {
@@ -161,14 +163,11 @@ class _DetailScreen extends State<DetailScreen> {
     bool valid = true;
     infoFieldsWidgets.forEach((widget) => {
           field = infoFieldsList[count],
-          print(field),
           if (field.key == 'technicianName' ||
               field.key == 'ticketNumber' ||
               field.key == 'ticketDate')
             {
-              print(field.key),
               value = widget.child.child.controller.text,
-              print(value),
               if (value == "") {valid = false}
             },
           count++
@@ -216,19 +215,19 @@ class _DetailScreen extends State<DetailScreen> {
   }
 
   List<String> getImages() {
+    List<String> imagesTemp = [];
     var m;
-    if (widget.docToEdit == null || widget.docToEdit.reference.collection('images').get() == null)
+    String url;
+    if (widget.docToEdit == null ||
+        widget.docToEdit.reference.collection('images').get() == null)
       return [];
     widget.docToEdit.reference.collection('images').get().then((value) => {
-          print(value.docs),
           m = value.docs.asMap(),
-          print(m),
           m.values.forEach((element) => {
-                print(element),
-                print(element),
-                print('values ${element.data()['images']}')
-                //print(element.get('images'));
+                url = element.data()['url'],
+                imagesTemp.add(url),
               })
         });
+    return imagesTemp;
   }
 }
