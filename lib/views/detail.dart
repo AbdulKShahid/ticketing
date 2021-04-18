@@ -87,7 +87,7 @@ class _DetailScreen extends State<DetailScreen> {
         length: controllerLength,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('ticket'),
+            title: Text('Intervention'),
             bottom: TabBar(
               tabs: tabs,
             ),
@@ -102,7 +102,7 @@ class _DetailScreen extends State<DetailScreen> {
                     create();
                   }
                 },
-                child: Text("Save"),
+                child: Text("Sauvegarder"),
                 shape:
                     CircleBorder(side: BorderSide(color: Colors.transparent)),
               ),

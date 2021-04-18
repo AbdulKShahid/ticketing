@@ -25,7 +25,7 @@ class ImagesScreen extends StatefulWidget {
 
 class _Images extends State<ImagesScreen> {
   final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://ticketing-be5bf.appspot.com');
+      FirebaseStorage(storageBucket: 'gs://ticketing-fe06a.appspot.com');
   UploadTask storageEvent;
   PickedFile _image;
   File selectedImg;

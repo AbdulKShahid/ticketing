@@ -25,7 +25,7 @@ class _Signin extends State<SignInScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('signIn'),
+        title: Text("S'identifier"),
       ),
       body: userFields(context), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -48,7 +48,7 @@ class _Signin extends State<SignInScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: const Text('Test sign in with email and password'),
+            child: const Text('Veuillez entrer votre email et votre mot de passe'),
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,
           ),
@@ -57,17 +57,17 @@ class _Signin extends State<SignInScreen> {
             decoration: const InputDecoration(labelText: 'Email'),
             validator: (String value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Veuillez remplir ce champ';
               }
               return null;
             },
           ),
           TextFormField(
             controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
+            decoration: const InputDecoration(labelText: 'Mot de passe'),
             validator: (String value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Veuillez remplir ce champ';
               }
               return null;
             },
@@ -82,7 +82,7 @@ class _Signin extends State<SignInScreen> {
                   password: _passwordController.text
                 );
               },
-              child: const Text('Submit'),
+              child: const Text("Connexion"),
             ),
           ),
         ],
