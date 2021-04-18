@@ -2,7 +2,8 @@
     package="com.example.ticketing">
    <application
         android:label="CPB Astra"
-        android:icon="@mipmap/ic_launcher">
+       android:theme="@style/Theme.AppCompat.Light"
+       android:icon="@mipmap/ic_launcher">
 
         <activity
             android:name=".MainActivity"

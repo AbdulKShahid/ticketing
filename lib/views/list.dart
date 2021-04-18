@@ -26,11 +26,13 @@ class ListScreen extends StatelessWidget {
         print('values ${element.data()}');
       });
     });
+    double width = MediaQuery.of(context).size.width;
     return StreamBuilder(
         stream: ref.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           return snapshot.hasData
               ? Container(
+            width: width,
                   child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: SingleChildScrollView(
