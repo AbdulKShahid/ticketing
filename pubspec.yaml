@@ -45,6 +45,8 @@ dependencies:
   cached_network_image: ^2.5.1
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
+
+  flutter_launcher_icons: ^0.7.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -53,9 +55,20 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/cpb_logo.png
+  image: assets/images/cpb_logo.png
   android: true
   ios: true
+
+flutter_launcher_icons:
+  path: ../
+
+flutter_icons:
+  image_path_android: "assets/images/cpb_logo_icon.png"
+  image_path_ios: "assets/images/cpb_logo_icon.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "assets/images/cpb_logo_icon.png"
+  adaptive_icon_foreground: "assets/images/cpb_logo_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
