@@ -148,7 +148,7 @@ class FormService {
       TextEditingController dropdownController = TextEditingController(
           text: (widget.docToEdit != null
               ? widget.docToEdit.data()[field.key]
-              : ''));
+              : 'Créé'));
       return TextFormField(
         readOnly: true,
         controller: dropdownController,
