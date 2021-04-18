@@ -178,7 +178,7 @@ class FormService {
       new Picker(
           adapter: PickerDataAdapter<String>(pickerdata: new JsonDecoder().convert(PickerData), isArray: true),
           hideHeader: true,
-          title: new Text("Select status"),
+          title: new Text("Sélectionnez le statut"),
           onConfirm: (Picker picker, List value) {
             print(value.toString());
             print(picker.getSelectedValues());

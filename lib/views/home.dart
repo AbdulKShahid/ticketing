@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketing/main.dart';
 import 'package:ticketing/views/detail.dart';
 import 'package:ticketing/views/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -100,13 +101,17 @@ class _Home extends State<HomeScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text(name),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.white,
+                image: DecorationImage(image: AssetImage('assets/images/cpb_logo.png')),
               ),
             ),
             ListTile(
-              title: Text('Sign out'),
+              title: Text('Moi - ' + name),
+            ),
+            ListTile(
+              title: Text('Déconnexion'),
+              tileColor: Palette.primary,
               onTap: () {
                 // Update the state of the app
                 // ...
