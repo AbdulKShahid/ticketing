@@ -75,7 +75,13 @@ class _Home extends State<HomeScreen> {
       body:StreamBuilder(
           stream: ref.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        return SizedBox.expand(child: ListScreen());
+        return Row(children : <Widget>[
+          Expanded(child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [ListScreen()],
+          ))
+        ],);
       }
       ),
       floatingActionButton: FloatingActionButton.extended(
