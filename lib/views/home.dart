@@ -69,7 +69,7 @@ class _Home extends State<HomeScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('List'),
+        title: Text('Interventions'),
       ),
       body:StreamBuilder(
           stream: ref.snapshots(),
@@ -87,7 +87,7 @@ class _Home extends State<HomeScreen> {
             ),
           );
         },
-        label: const Text('Create'),
+        label: const Text('Créer'),
         icon: const Icon(Icons.add),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
@@ -134,14 +134,14 @@ class _Home extends State<HomeScreen> {
         setState(() => _connectionStatus = result.toString());
         final snackBar = SnackBar(
           duration: Duration(days: 1),
-          content: Text('No connection'),
+          content: Text('Pas de connection'),
         );
         // Find the ScaffoldMessenger in the widget tree
         // and use it to show a SnackBar.
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         break;
       default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
+        setState(() => _connectionStatus = "Échec de l'obtention de la connectivité.");
         break;
     }
   }

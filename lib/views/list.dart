@@ -37,9 +37,9 @@ class ListScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
                             columns: [
-                              DataColumn(label: Text('ticket number')),
-                              DataColumn(label: Text('ville')),
-                              DataColumn(label: Text('Status')),
+                              DataColumn(label: Text('N. Intervention')),
+                              DataColumn(label: Text('Ville')),
+                              DataColumn(label: Text('Statut')),
                             ],
                             showCheckboxColumn: false,
                             rows: snapshot.data

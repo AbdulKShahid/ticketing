@@ -139,9 +139,9 @@ class FormService {
       const PickerData2 = '''
 [
     [
-        "Created",
-        "Assigned",
-        "Completed"
+        "Créé",
+        "En cours",
+        "Terminé"
     ]
 ]
     ''';
