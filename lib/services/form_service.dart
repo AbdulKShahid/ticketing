@@ -30,6 +30,7 @@ class FormService {
       FormField('checkbox', 0.5, 'blackOut', 'Panne électrique'),
       FormField('checkbox', 0.5, 'waterLeak', "Fuite d'eau"),
       FormField('checkbox', 0.5, 'doorBlock', 'Porte Bloquée'),
+      FormField('checkbox', 0.5, 'waterMissing', "Manque d'eau"),
     ];
 
     // add the names in the getInputDecoration on adding new fields
@@ -39,8 +40,8 @@ class FormService {
 
   getWorkFields(widget) {
     var workFieldsList = [
-      FormField('checkbox', 0.5, 'isOneTechnician', 'Un technician'),
-      FormField('checkbox', 0.5, 'isTwoTechnician', 'Deux technician'),
+      FormField('checkbox', 0.5, 'isOneTechnician', 'Un technicien'),
+      FormField('checkbox', 0.5, 'isTwoTechnician', 'Deux techniciens'),
       FormField('checkbox', 0.5, 'waterLeakSearch', 'Recherche de fuite'),
       FormField('string', 1, 'waterLeakSearchCmt'),
       FormField('checkbox', 0.5, 'panneSearch', 'Recherche de panne'),
@@ -60,6 +61,7 @@ class FormService {
       FormField('checkbox', 0.5, 'cleaning', "Nettoyage"),
       FormField('checkbox', 0.5, 'reparationPreviewed', "Réparation à prévoir"),
       FormField('string', 1, 'reparationPreviewedCmt'),
+      FormField('string', 1, 'observation'),
       FormField('checkbox', 0.5, 'devisNeeded', "Besoin d'un devis"),
       FormField('checkbox', 0.5, 'callManager', "Appel manager"),
       FormField('string', 0.5, 'conductorName'),
@@ -266,6 +268,7 @@ getInputDecoration(field) {
   const waterLeakSearchCmt = "Recherche de fuite commentaire";
   const panneSearchCmt = "Recherche de panne commentaire";
   const reparationCmt = "Reparation commentaire";
+  const observation = "Observation";
 
   switch (field.key) {
     case 'technicianName':
@@ -400,6 +403,9 @@ getInputDecoration(field) {
       case 'reparationCmt':
       {
         return const InputDecoration(labelText: reparationCmt);
+      } case 'observation':
+      {
+        return const InputDecoration(labelText: observation);
       }
 
     default:
