@@ -27,6 +27,7 @@ class ImagesScreen extends StatefulWidget {
 }
 
 class _Images extends State<ImagesScreen> {
+  var ref = FirebaseFirestore.instance.collection('tickets');
   final FirebaseStorage _storage =
       FirebaseStorage(storageBucket: 'gs://ticketing-fe06a.appspot.com');
   UploadTask storageEvent;
@@ -52,15 +53,15 @@ class _Images extends State<ImagesScreen> {
       ),
 
       ),
-      /*new Padding(padding: new EdgeInsets.all(20.0),child:
+      new Padding(padding: new EdgeInsets.all(20.0),child:
 
 
       ElevatedButton(child: Text('Supprimer'), onPressed: () {
         // delete image both in storage and from the list for this ticket
-        //deleteAnImage();
+        deleteAnImage();
       }),
 
-      ),*/
+      ),
       new Padding(padding: new EdgeInsets.all(20.0),child:
 
 
@@ -80,8 +81,8 @@ class _Images extends State<ImagesScreen> {
 
     ];
     if (gridView == true) {
-      floatingButtons.removeAt(0);
-      //floatingButtons.removeAt(0);
+      floatingButtons.removeAt(0); // to remove the grid button on grid view
+      floatingButtons.removeAt(0); // to remove the delete button on grid view
     }
     return Scaffold(
       body: gridView ? imageGridView(context) : imagesCaro(context) ,
@@ -217,20 +218,27 @@ class _Images extends State<ImagesScreen> {
     return widget.images;
   }
 
-/*  deleteAnImage() {
-    print(currentImgIndex);
+  deleteAnImage() async {
     var m;
-    widget.docToEdit.reference.collection('images').get().then((value) => {
-      m = value.docs.asMap(),
-      m.values.forEach((element) => {
-        print(element)
+    var count = 0;
+    var idOfItemToDelete;
+    await widget.docToEdit.reference.collection('images').get().then((value) => {
+        m = value.docs.asMap(),
+      m.values.forEach((QueryDocumentSnapshot element) => {
+        if (count == currentImgIndex) {
+          idOfItemToDelete = element.reference.id
+        },
+        count++,
       }),
-      value.docs[currentImgIndex].data().delte
+      print(idOfItemToDelete),
+    });
+    print(ref.doc(widget.docToEdit.reference.id).collection('images').doc(idOfItemToDelete));
+    ref.doc(widget.docToEdit.reference.id).collection('images').doc(idOfItemToDelete).delete();
+    // also remove in storage
+    setState(() {
+      widget.images.removeAt(currentImgIndex);
+      this.gridView = true;
     });
 
-    Firestore.instance.collection("chats").document("ROOM_1")
-        .collection("messages").document(snapshot.data.documents[index]["id"])
-        .delete();
-
-  }*/
+  }
 }
