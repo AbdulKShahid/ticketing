@@ -230,4 +230,8 @@ class _DetailScreen extends State<DetailScreen> {
         });
     return imagesTemp;
   }
+
+  Widget apptEtageSelector() {
+    return Text('Appt');
+  }
 }

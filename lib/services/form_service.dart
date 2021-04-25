@@ -43,11 +43,12 @@ class FormService {
       FormField('checkbox', 0.5, 'isOneTechnician', 'Un technicien'),
       FormField('checkbox', 0.5, 'isTwoTechnician', 'Deux techniciens'),
       FormField('checkbox', 0.5, 'waterLeakSearch', 'Recherche de fuite'),
+      FormField('apptEtage', 0.5, 'apptEtage', 'Appt Etage'),
       FormField('string', 1, 'waterLeakSearchCmt'),
       FormField('checkbox', 0.5, 'panneSearch', 'Recherche de panne'),
       FormField('string', 1, 'panneSearchCmt'),
-
-      FormField('checkbox', 0.5, 'equipmentVerification', "Verification d'équipment"),
+      FormField(
+          'checkbox', 0.5, 'equipmentVerification', "Verification d'équipment"),
       FormField('checkbox', 0.5, 'putInSecurity', 'Mise en securité'),
       FormField('checkbox', 0.5, 'reparation', "Reparation"),
       FormField('string', 1, 'reparationCmt'),
@@ -55,7 +56,8 @@ class FormService {
       FormField('checkbox', 0.5, 'cave', "Cave"),
       FormField('checkbox', 0.5, 'parkingEntry', "Entrée parking"),
       FormField('checkbox', 0.5, 'portail', "Portail"),
-      FormField('checkbox', 0.5, 'porteGaineElectric', "Porte gaine électrique"),
+      FormField(
+          'checkbox', 0.5, 'porteGaineElectric', "Porte gaine électrique"),
       FormField('checkbox', 0.5, 'porteLocalTechnic', "Porte local technique"),
       FormField('checkbox', 0.5, 'reputInService', "Remise en service"),
       FormField('checkbox', 0.5, 'cleaning', "Nettoyage"),
@@ -67,9 +69,6 @@ class FormService {
       FormField('string', 0.5, 'conductorName'),
       FormField('string', 0.5, 'numberOfGardien'),
       FormField('string', 0.5, 'nameOfGardien'),
-
-
-
     ];
 
     return workFieldsList;
@@ -103,7 +102,6 @@ class FormService {
                 ? widget.docToEdit.data()[field.key]
                 : '')),
         decoration: getInputDecoration(field),
-
         validator: (String value) {
           if (value.isEmpty) {
             return 'Please enter some text';
@@ -137,7 +135,6 @@ class FormService {
         },
       );
     } else if (type == 'dropdown') {
-
       const PickerData2 = '''
 [
     [
@@ -162,34 +159,47 @@ class FormService {
           return null;
         },
         onTap: () async {
-
           showPickerArray(context, PickerData2, dropdownController);
         },
       );
     } else if (type == 'checkbox') {
-      bool value = ((widget.docToEdit != null &&  widget.docToEdit.data()[field.key].runtimeType == bool)
+      bool value = ((widget.docToEdit != null &&
+              widget.docToEdit.data()[field.key].runtimeType == bool)
           ? widget.docToEdit.data()[field.key]
           : false);
 
       return Tapbox(checked: value, label: field.label);
+    } else if (type == 'apptEtage') {
+      return TextFormField(
+        controller: TextEditingController(
+            text: (widget.docToEdit != null
+                ? widget.docToEdit.data()[field.key]
+                : '')),
+        decoration: getInputDecoration(field),
+        onTap: () => _showMyDialog(context, false),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      );
     }
   }
 
   showPickerArray(BuildContext context, PickerData, dropdownController) {
-
-      new Picker(
-          adapter: PickerDataAdapter<String>(pickerdata: new JsonDecoder().convert(PickerData), isArray: true),
-          hideHeader: true,
-          title: new Text("Sélectionnez le statut"),
-          onConfirm: (Picker picker, List value) {
-            print(value.toString());
-            print(picker.getSelectedValues());
-            if (picker.getSelectedValues()[0] != null) {
-              dropdownController.text = picker.getSelectedValues()[0].toString();
-            }
+    new Picker(
+        adapter: PickerDataAdapter<String>(
+            pickerdata: new JsonDecoder().convert(PickerData), isArray: true),
+        hideHeader: true,
+        title: new Text("Sélectionnez le statut"),
+        onConfirm: (Picker picker, List value) {
+          print(value.toString());
+          print(picker.getSelectedValues());
+          if (picker.getSelectedValues()[0] != null) {
+            dropdownController.text = picker.getSelectedValues()[0].toString();
           }
-      ).showDialog(context);
-
+        }).showDialog(context);
   }
 
   String formatTimestamp(DateTime dateTime) {
@@ -222,6 +232,88 @@ class FormService {
           pickedTime.hour, pickedTime.minute);
       controller.text = formatTimestamp(dateTime);
     }
+  }
+
+  Future<void> _showMyDialog(BuildContext context, value) async {
+    var apptEtage = [];
+    var title = 'Recherche de fuite';
+    apptEtage.add({'appt': 'A', 'etage': '3'});
+    apptEtage.add({'appt': 'D', 'etage': '2'});
+    if (value == true) {
+      apptEtage.add({'appt': 'E', 'etage': '6'});
+    }
+    List<Widget> widgets = [];
+    apptEtage.forEach((element) => {
+          widgets.add(Row(children: <Widget>[
+            Expanded(
+              child: TextFormField(
+                controller: TextEditingController(text: ''),
+                decoration: InputDecoration(labelText: 'Apartment'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: TextEditingController(text: ''),
+                decoration: InputDecoration(labelText: 'Etage'),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Expanded(child: IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Retirer',
+              onPressed: () {
+                
+              },
+            ))
+          ]))
+        });
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Appt Etage pour ' + title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: widgets,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Annuler'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showMyDialog(context, true);
+              },
+            ),
+            TextButton(
+              child: Text('Ajouter'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showMyDialog(context, true);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -376,34 +468,35 @@ getInputDecoration(field) {
       {
         return const InputDecoration(labelText: equipmentVerification);
       }
-      case 'conductorName':
+    case 'conductorName':
       {
         return const InputDecoration(labelText: conductorName);
       }
-      case 'numberOfGardien':
+    case 'numberOfGardien':
       {
         return const InputDecoration(labelText: numberOfGardien);
       }
-      case 'nameOfGardien':
+    case 'nameOfGardien':
       {
         return const InputDecoration(labelText: nameOfGardien);
       }
-      case 'reparationPreviewedCmt':
+    case 'reparationPreviewedCmt':
       {
         return const InputDecoration(labelText: reparationPreviewedCmt);
       }
-      case 'waterLeakSearchCmt':
+    case 'waterLeakSearchCmt':
       {
         return const InputDecoration(labelText: waterLeakSearchCmt);
       }
-      case 'panneSearchCmt':
+    case 'panneSearchCmt':
       {
         return const InputDecoration(labelText: panneSearchCmt);
       }
-      case 'reparationCmt':
+    case 'reparationCmt':
       {
         return const InputDecoration(labelText: reparationCmt);
-      } case 'observation':
+      }
+    case 'observation':
       {
         return const InputDecoration(labelText: observation);
       }
@@ -415,8 +508,6 @@ getInputDecoration(field) {
   }
 }
 
-
-
 // TapboxA manages its own state.
 
 //------------------------- TapboxA ----------------------------------
@@ -424,6 +515,7 @@ getInputDecoration(field) {
 class Tapbox extends StatefulWidget {
   bool checked;
   String label;
+
   Tapbox({@required this.checked, @required this.label});
 
   @override
@@ -432,9 +524,10 @@ class Tapbox extends StatefulWidget {
 
 class _TapboxState extends State<Tapbox> {
   _TapboxState();
+
   @override
   void initState() {
-   print(widget);
+    print(widget);
     super.initState();
   }
 
